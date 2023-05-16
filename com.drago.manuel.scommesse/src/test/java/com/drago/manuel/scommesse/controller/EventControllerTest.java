@@ -79,4 +79,15 @@ public class EventControllerTest {
 		inOrder.verify(eventView).eventRemoved(eventModelToDelete);
 	}
 
+	@Test
+	public void testChangeEventWhenOddsIsGreaterThenOne() {
+		EventModel existingEventModel = new EventModel("Juventus", "Inter", "X", 2.20);
+		EventModel modifiedEventModel = new EventModel("Juventus", "Inter", "X", 3.20);
+		eventController.changeOdds(existingEventModel, modifiedEventModel.getOdds());
+		InOrder inOrder = inOrder(eventRepository, eventView);
+		inOrder.verify(eventRepository).update(modifiedEventModel);
+		inOrder.verify(eventView).eventChanged(modifiedEventModel);
+
+	}
+
 }
