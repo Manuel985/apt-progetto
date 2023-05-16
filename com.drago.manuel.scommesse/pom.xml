@@ -118,5 +118,36 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>pit</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-maven</artifactId>
+						<version>1.9.9</version>
+						<executions>
+							<execution>
+								<phase>verify</phase>
+								<goals>
+									<goal>mutationCoverage</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<targetClasses>
+								<param>com.drago.manuel.scommesse.controller.*</param>
+							</targetClasses>
+							<targetTests>
+								<param>com.drago.manuel.scommesse.*</param>
+							</targetTests>
+							<mutators>
+								<mutator>STRONGER</mutator>
+							</mutators>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 </project>
