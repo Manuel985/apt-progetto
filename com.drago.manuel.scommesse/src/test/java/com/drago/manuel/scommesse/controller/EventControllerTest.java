@@ -3,6 +3,7 @@ package com.drago.manuel.scommesse.controller;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.ignoreStubs;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -41,13 +42,22 @@ public class EventControllerTest {
 	}
 
 	@Test
-	public void testNewEventWhenEventDoesNotAlreadyExist() {
+	public void testNewEventWhenEventDoesNotAlreadyExistAndOddsIsGreaterThenOne() {
 		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.20);
 		when(eventRepository.findByHomeAwayOutcome("Juventus", "Inter", "X")).thenReturn(null);
 		eventController.newEvent(eventModel);
 		InOrder inOrder = inOrder(eventRepository, eventView);
 		inOrder.verify(eventRepository).save(eventModel);
 		inOrder.verify(eventView).eventAdded(eventModel);
+	}
+
+	@Test
+	public void testNewEventWhenOddsIsNotGreaterThenOne() {
+		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 1.0);
+		eventController.newEvent(eventModel);
+		verify(eventView).showError("Odds must be greater then 1.0", eventModel);
+		verify(eventRepository, never()).save(eventModel);
+
 	}
 
 	@Test
