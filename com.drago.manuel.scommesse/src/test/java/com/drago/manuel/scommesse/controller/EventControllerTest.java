@@ -1,6 +1,7 @@
 package com.drago.manuel.scommesse.controller;
 
 import static java.util.Arrays.asList;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -34,6 +36,20 @@ public class EventControllerTest {
 		when(eventRepository.findAll()).thenReturn(eventModels);
 		eventController.allEvents();
 		verify(eventView).showAllEvents(eventModels);
+	}
+
+	@Test
+	public void testNewEventWhenEventDoesNotAlreadyExist() {
+		String homeTeam = "Juventus";
+		String awayTeam = "Inter";
+		String outcome = "X";
+		double odds = 3.20;
+		EventModel eventModel = new EventModel(homeTeam, awayTeam, outcome, odds);
+		when(eventRepository.findByHomeAwayOutcome(homeTeam, awayTeam, outcome)).thenReturn(null);
+		eventController.newEvent(eventModel);
+		InOrder inOrder = inOrder(eventRepository, eventView);
+		inOrder.verify(eventRepository).save(eventModel);
+		inOrder.verify(eventView).eventAdded(eventModel);
 	}
 
 }
