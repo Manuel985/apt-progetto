@@ -90,4 +90,14 @@ public class EventControllerTest {
 
 	}
 
+	@Test
+	public void testChangeEventWhenOddsIsNotGreaterThenOne() {
+		EventModel existingEventModel = new EventModel("Juventus", "Inter", "X", 2.20);
+		EventModel modifiedEventModel = new EventModel("Juventus", "Inter", "X", 1.0);
+		eventController.changeOdds(existingEventModel, modifiedEventModel.getOdds());
+		verify(eventView).showError("Odds must be greater then 1.0", modifiedEventModel);
+		verify(eventRepository, never()).update(modifiedEventModel);
+
+	}
+
 }
