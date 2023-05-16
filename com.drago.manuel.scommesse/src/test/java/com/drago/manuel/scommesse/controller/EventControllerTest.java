@@ -1,8 +1,10 @@
 package com.drago.manuel.scommesse.controller;
 
 import static java.util.Arrays.asList;
+import static org.mockito.Mockito.ignoreStubs;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -43,13 +45,25 @@ public class EventControllerTest {
 		String homeTeam = "Juventus";
 		String awayTeam = "Inter";
 		String outcome = "X";
-		double odds = 3.20;
-		EventModel eventModel = new EventModel(homeTeam, awayTeam, outcome, odds);
+		EventModel eventModel = new EventModel(homeTeam, awayTeam, outcome, 3.20);
 		when(eventRepository.findByHomeAwayOutcome(homeTeam, awayTeam, outcome)).thenReturn(null);
 		eventController.newEvent(eventModel);
 		InOrder inOrder = inOrder(eventRepository, eventView);
 		inOrder.verify(eventRepository).save(eventModel);
 		inOrder.verify(eventView).eventAdded(eventModel);
+	}
+
+	@Test
+	public void testNewEventWhenEventAlreadyExist() {
+		String homeTeam = "Juventus";
+		String awayTeam = "Inter";
+		String outcome = "X";
+		EventModel newEventModel = new EventModel(homeTeam, awayTeam, outcome, 3.20);
+		EventModel existingEventModel = new EventModel(homeTeam, awayTeam, outcome, 2.20);
+		when(eventRepository.findByHomeAwayOutcome(homeTeam, awayTeam, outcome)).thenReturn(existingEventModel);
+		eventController.newEvent(newEventModel);
+		verify(eventView).showError("Already existing event Juventus-Inter X", existingEventModel);
+		verifyNoMoreInteractions(ignoreStubs(eventRepository));
 	}
 
 }
