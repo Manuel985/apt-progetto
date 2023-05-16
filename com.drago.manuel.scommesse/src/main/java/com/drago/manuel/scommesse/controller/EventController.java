@@ -6,6 +6,7 @@ import com.drago.manuel.scommesse.view.EventView;
 
 public class EventController {
 
+	private static final double MINIMUM_ODDS = 1.0;
 	private EventRepository eventRepository;
 	private EventView eventView;
 
@@ -24,6 +25,10 @@ public class EventController {
 		if (existingEventModel != null) {
 			eventView.showError("Already existing event " + eventModel.getHomeTeam() + "-" + eventModel.getAwayTeam()
 					+ " " + eventModel.getOutcome(), existingEventModel);
+			return;
+		}
+		if (eventModel.getOdds() <= MINIMUM_ODDS) {
+			eventView.showError("Odds must be greater then " + MINIMUM_ODDS, eventModel);
 			return;
 		}
 
