@@ -32,4 +32,10 @@ public class EventController {
 
 	}
 
+	public void deleteEvent(EventModel eventModel) {
+		eventRepository.delete(eventModel.getHomeTeam(), eventModel.getAwayTeam(), eventModel.getOutcome());
+		eventView.eventRemoved(eventModel);
+
+	}
+
 }

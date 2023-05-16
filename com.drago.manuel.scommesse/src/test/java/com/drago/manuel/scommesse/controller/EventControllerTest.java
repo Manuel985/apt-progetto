@@ -42,11 +42,8 @@ public class EventControllerTest {
 
 	@Test
 	public void testNewEventWhenEventDoesNotAlreadyExist() {
-		String homeTeam = "Juventus";
-		String awayTeam = "Inter";
-		String outcome = "X";
-		EventModel eventModel = new EventModel(homeTeam, awayTeam, outcome, 3.20);
-		when(eventRepository.findByHomeAwayOutcome(homeTeam, awayTeam, outcome)).thenReturn(null);
+		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.20);
+		when(eventRepository.findByHomeAwayOutcome("Juventus", "Inter", "X")).thenReturn(null);
 		eventController.newEvent(eventModel);
 		InOrder inOrder = inOrder(eventRepository, eventView);
 		inOrder.verify(eventRepository).save(eventModel);
@@ -55,15 +52,21 @@ public class EventControllerTest {
 
 	@Test
 	public void testNewEventWhenEventAlreadyExist() {
-		String homeTeam = "Juventus";
-		String awayTeam = "Inter";
-		String outcome = "X";
-		EventModel newEventModel = new EventModel(homeTeam, awayTeam, outcome, 3.20);
-		EventModel existingEventModel = new EventModel(homeTeam, awayTeam, outcome, 2.20);
-		when(eventRepository.findByHomeAwayOutcome(homeTeam, awayTeam, outcome)).thenReturn(existingEventModel);
+		EventModel newEventModel = new EventModel("Juventus", "Inter", "X", 3.20);
+		EventModel existingEventModel = new EventModel("Juventus", "Inter", "X", 2.20);
+		when(eventRepository.findByHomeAwayOutcome("Juventus", "Inter", "X")).thenReturn(existingEventModel);
 		eventController.newEvent(newEventModel);
 		verify(eventView).showError("Already existing event Juventus-Inter X", existingEventModel);
 		verifyNoMoreInteractions(ignoreStubs(eventRepository));
+	}
+
+	@Test
+	public void testDeleteEventWhenEventExists() {
+		EventModel eventModelToDelete = new EventModel("Juventus", "Inter", "X", 3.20);
+		eventController.deleteEvent(eventModelToDelete);
+		InOrder inOrder = inOrder(eventRepository, eventView);
+		inOrder.verify(eventRepository).delete("Juventus", "Inter", "X");
+		inOrder.verify(eventView).eventRemoved(eventModelToDelete);
 	}
 
 }
