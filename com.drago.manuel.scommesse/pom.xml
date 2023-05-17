@@ -64,6 +64,11 @@
 			<version>${mongo.server.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.examples</groupId>
+			<artifactId>school</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
