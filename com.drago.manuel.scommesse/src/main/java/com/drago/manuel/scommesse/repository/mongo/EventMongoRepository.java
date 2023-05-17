@@ -1,5 +1,6 @@
 package com.drago.manuel.scommesse.repository.mongo;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.drago.manuel.scommesse.model.EventModel;
@@ -14,8 +15,7 @@ public class EventMongoRepository implements EventRepository {
 
 	@Override
 	public List<EventModel> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override
