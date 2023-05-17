@@ -88,6 +88,45 @@
 					<artifactId>maven-project-info-reports-plugin</artifactId>
 					<version>3.0.0</version>
 				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.8.9</version>
+					<configuration>
+						<excludes>
+							<exclude>**/EventModel.*</exclude>
+						</excludes>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>prepare-agent</goal>
+								<goal>report</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.pitest</groupId>
+					<artifactId>pitest-maven</artifactId>
+					<version>1.9.9</version>
+					<configuration>
+						<targetClasses>
+							<param>com.drago.manuel.scommesse.controller.*</param>
+						</targetClasses>
+						<targetTests>
+							<param>com.drago.manuel.scommesse.*</param>
+						</targetTests>
+						<mutators>
+							<mutator>STRONGER</mutator>
+						</mutators>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>3.9.1.2184</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -100,20 +139,6 @@
 					<plugin>
 						<groupId>org.jacoco</groupId>
 						<artifactId>jacoco-maven-plugin</artifactId>
-						<version>0.8.9</version>
-						<configuration>
-							<excludes>
-								<exclude>**/EventModel.*</exclude>
-							</excludes>
-						</configuration>
-						<executions>
-							<execution>
-								<goals>
-									<goal>prepare-agent</goal>
-									<goal>report</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>
@@ -125,7 +150,6 @@
 					<plugin>
 						<groupId>org.pitest</groupId>
 						<artifactId>pitest-maven</artifactId>
-						<version>1.9.9</version>
 						<executions>
 							<execution>
 								<phase>verify</phase>
@@ -134,17 +158,6 @@
 								</goals>
 							</execution>
 						</executions>
-						<configuration>
-							<targetClasses>
-								<param>com.drago.manuel.scommesse.controller.*</param>
-							</targetClasses>
-							<targetTests>
-								<param>com.drago.manuel.scommesse.*</param>
-							</targetTests>
-							<mutators>
-								<mutator>STRONGER</mutator>
-							</mutators>
-						</configuration>
 					</plugin>
 				</plugins>
 			</build>
