@@ -78,4 +78,12 @@ public class EventMongoRepositoryTest {
 		assertThat(eventMongoRepository.findByHomeAwayOutcome("Juventus", "Inter", "1")).isNull();
 	}
 
+	@Test
+	public void testFindByHomeAwayOutcomeFound() {
+		addTestEventToDatabase("Juventus", "Inter", "1", 1.80);
+		addTestEventToDatabase("Roma", "Lazio", "2", 2.75);
+		assertThat(eventMongoRepository.findByHomeAwayOutcome("Roma", "Lazio", "2"))
+				.isEqualTo(new EventModel("Roma", "Lazio", "2", 2.75));
+	}
+
 }
