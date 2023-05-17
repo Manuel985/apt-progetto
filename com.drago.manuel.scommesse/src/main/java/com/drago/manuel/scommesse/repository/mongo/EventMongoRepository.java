@@ -50,7 +50,8 @@ public class EventMongoRepository implements EventRepository {
 
 	@Override
 	public void delete(String homeTeam, String awayTeam, String outcome) {
-		// TODO Auto-generated method stub
+		eventCollection.deleteOne(Filters.and(Filters.eq("homeTeam", homeTeam), Filters.eq("awayTeam", awayTeam),
+				Filters.eq("outcome", outcome)));
 
 	}
 

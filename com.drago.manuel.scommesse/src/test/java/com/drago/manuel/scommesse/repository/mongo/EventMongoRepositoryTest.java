@@ -103,4 +103,11 @@ public class EventMongoRepositoryTest {
 				.collect(Collectors.toList());
 	}
 
+	@Test
+	public void testDelete() {
+		addTestEventToDatabase("Juventus", "Inter", "1", 1.80);
+		eventMongoRepository.delete("Juventus", "Inter", "1");
+		assertThat(readAllEventsFromDatabase()).isEmpty();
+	}
+
 }
