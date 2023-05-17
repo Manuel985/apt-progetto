@@ -10,6 +10,7 @@ import com.drago.manuel.scommesse.model.EventModel;
 import com.drago.manuel.scommesse.repository.EventRepository;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
 
 public class EventMongoRepository implements EventRepository {
 
@@ -32,7 +33,10 @@ public class EventMongoRepository implements EventRepository {
 
 	@Override
 	public EventModel findByHomeAwayOutcome(String homeTeam, String awayTeam, String outcome) {
-		// TODO Auto-generated method stub
+		Document d = eventCollection.find(Filters.and(Filters.eq("homeTeam", homeTeam),
+				Filters.eq("awayTeam", awayTeam), Filters.eq("outcome", outcome))).first();
+		if (d != null)
+			return fromDocumentToEvent(d);
 		return null;
 	}
 
