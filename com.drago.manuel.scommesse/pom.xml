@@ -64,11 +64,6 @@
 			<version>${mongo.server.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.examples</groupId>
-			<artifactId>school</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -135,6 +130,7 @@
 					<configuration>
 						<targetClasses>
 							<param>com.drago.manuel.scommesse.controller.*</param>
+							<param>com.drago.manuel.scommesse.repository.mongo.*</param>
 						</targetClasses>
 						<targetTests>
 							<param>com.drago.manuel.scommesse.*</param>
