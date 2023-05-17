@@ -110,4 +110,12 @@ public class EventMongoRepositoryTest {
 		assertThat(readAllEventsFromDatabase()).isEmpty();
 	}
 
+	@Test
+	public void testUpdate() {
+		addTestEventToDatabase("Juventus", "Inter", "1", 1.80);
+		EventModel modifiedEventModel = new EventModel("Juventus", "Inter", "1", 1.55);
+		eventMongoRepository.update(modifiedEventModel);
+		assertThat(readAllEventsFromDatabase()).containsExactly(modifiedEventModel);
+	}
+
 }
