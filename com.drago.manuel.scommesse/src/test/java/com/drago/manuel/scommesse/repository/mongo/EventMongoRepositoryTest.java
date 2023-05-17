@@ -1,5 +1,6 @@
 package com.drago.manuel.scommesse.repository.mongo;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
 import java.net.InetSocketAddress;
@@ -55,8 +56,8 @@ public class EventMongoRepositoryTest {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testFindAllWhenDatabaseIsEmpty() {
+		assertThat(eventMongoRepository.findAll()).isEmpty();
 	}
 
 }
