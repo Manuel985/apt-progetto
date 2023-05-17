@@ -73,4 +73,9 @@ public class EventMongoRepositoryTest {
 				.append("outcome", outcome).append("odds", odds));
 	}
 
+	@Test
+	public void testFindByHomeAwayOutcomeNotFound() {
+		assertThat(eventMongoRepository.findByHomeAwayOutcome("Juventus", "Inter", "1")).isNull();
+	}
+
 }
