@@ -42,7 +42,9 @@ public class EventMongoRepository implements EventRepository {
 
 	@Override
 	public void save(EventModel eventModel) {
-		// TODO Auto-generated method stub
+		eventCollection.insertOne(
+				new Document().append("homeTeam", eventModel.getHomeTeam()).append("awayTeam", eventModel.getAwayTeam())
+						.append("outcome", eventModel.getOutcome()).append("odds", eventModel.getOdds()));
 
 	}
 

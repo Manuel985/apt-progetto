@@ -3,6 +3,9 @@ package com.drago.manuel.scommesse.repository.mongo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.InetSocketAddress;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.bson.Document;
 import org.junit.After;
@@ -84,6 +87,20 @@ public class EventMongoRepositoryTest {
 		addTestEventToDatabase("Roma", "Lazio", "2", 2.75);
 		assertThat(eventMongoRepository.findByHomeAwayOutcome("Roma", "Lazio", "2"))
 				.isEqualTo(new EventModel("Roma", "Lazio", "2", 2.75));
+	}
+
+	@Test
+	public void testSave() {
+		EventModel eventModel = new EventModel("Juventus", "Inter", "1", 1.80);
+		eventMongoRepository.save(eventModel);
+		assertThat(readAllEventsFromDatabase()).containsExactly(eventModel);
+	}
+
+	private List<EventModel> readAllEventsFromDatabase() {
+		return StreamSupport
+				.stream(eventCollection.find().spliterator(), false).map(d -> new EventModel(d.getString("homeTeam"),
+						d.getString("awayTeam"), d.getString("outcome"), d.getDouble("odds")))
+				.collect(Collectors.toList());
 	}
 
 }
