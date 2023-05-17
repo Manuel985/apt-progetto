@@ -11,6 +11,7 @@ import com.drago.manuel.scommesse.repository.EventRepository;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 
 public class EventMongoRepository implements EventRepository {
 
@@ -57,7 +58,9 @@ public class EventMongoRepository implements EventRepository {
 
 	@Override
 	public void update(EventModel eventModel) {
-		// TODO Auto-generated method stub
+		eventCollection.updateOne(Filters.and(Filters.eq("homeTeam", eventModel.getHomeTeam()),
+				Filters.eq("awayTeam", eventModel.getAwayTeam()), Filters.eq("outcome", eventModel.getOutcome())),
+				Updates.set("odds", eventModel.getOdds()));
 
 	}
 
