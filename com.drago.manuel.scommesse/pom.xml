@@ -19,6 +19,9 @@
 		<junit.version>4.13.2</junit.version>
 		<assertj.swing.version>3.9.2</assertj.swing.version>
 		<mockito.version>4.9.0</mockito.version>
+		<mongo.driver.version>3.12.7</mongo.driver.version>
+		<logback.version>1.2.11</logback.version>
+		<mongo.server.version>1.39.0</mongo.server.version>
 		<sonar.organization>manuel985</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.coverage.exclusions>
@@ -43,6 +46,22 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>${mongo.driver.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.bwaldvogel</groupId>
+			<artifactId>mongo-java-server</artifactId>
+			<version>${mongo.server.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
