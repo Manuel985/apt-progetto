@@ -59,10 +59,18 @@ public class EventControllerIT {
 	}
 
 	@Test
-	public void testNewStudent() {
+	public void testNewEvent() {
 		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.20);
 		eventController.newEvent(eventModel);
 		verify(eventView).eventAdded(eventModel);
+	}
+
+	@Test
+	public void testDeleteEvent() {
+		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.20);
+		eventRepository.save(eventModel);
+		eventController.deleteEvent(eventModel);
+		verify(eventView).eventRemoved(eventModel);
 	}
 
 }
