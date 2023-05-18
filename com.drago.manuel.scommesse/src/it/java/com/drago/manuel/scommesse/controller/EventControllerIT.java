@@ -73,4 +73,12 @@ public class EventControllerIT {
 		verify(eventView).eventRemoved(eventModel);
 	}
 
+	@Test
+	public void testChangeOdds() {
+		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.20);
+		eventRepository.save(eventModel);
+		eventController.changeOdds(eventModel, 2.80);
+		verify(eventView).eventChanged(new EventModel("Juventus", "Inter", "X", 2.80));
+	}
+
 }
