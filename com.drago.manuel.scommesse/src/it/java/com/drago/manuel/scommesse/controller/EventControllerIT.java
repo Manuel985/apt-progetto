@@ -3,17 +3,23 @@ package com.drago.manuel.scommesse.controller;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.verify;
 
+import org.bson.Document;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.testcontainers.containers.MongoDBContainer;
 
 import com.drago.manuel.scommesse.model.EventModel;
 import com.drago.manuel.scommesse.repository.EventRepository;
 import com.drago.manuel.scommesse.repository.mongo.EventMongoRepository;
 import com.drago.manuel.scommesse.view.EventView;
 import com.mongodb.MongoClient;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EventControllerIT {
@@ -25,15 +31,22 @@ public class EventControllerIT {
 
 	private EventController eventController;
 
+	private MongoClient client;
+	private MongoCollection<Document> eventCollection;
+
 	private static final String BET_DB_NAME = "bet";
 	private static final String EVENT_COLLECTION_NAME = "event";
 
+	@ClassRule
+	public static final MongoDBContainer mongo = new MongoDBContainer("mongo:4.4.3");
+
 	@Before
-	public void setUp() {
-		eventRepository = new EventMongoRepository(new MongoClient("localhost"), BET_DB_NAME, EVENT_COLLECTION_NAME);
-		for (EventModel eventModel : eventRepository.findAll()) {
-			eventRepository.delete(eventModel.getHomeTeam(), eventModel.getAwayTeam(), eventModel.getOutcome());
-		}
+	public void setup() {
+		client = new MongoClient(new ServerAddress(mongo.getHost(), mongo.getMappedPort(27017)));
+		eventRepository = new EventMongoRepository(client, BET_DB_NAME, EVENT_COLLECTION_NAME);
+		MongoDatabase database = client.getDatabase(BET_DB_NAME);
+		database.drop();
+		eventCollection = database.getCollection(EVENT_COLLECTION_NAME);
 		eventController = new EventController(eventRepository, eventView);
 	}
 
