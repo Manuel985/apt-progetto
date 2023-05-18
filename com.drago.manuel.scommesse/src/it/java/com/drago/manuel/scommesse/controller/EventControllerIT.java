@@ -58,4 +58,11 @@ public class EventControllerIT {
 		verify(eventView).showAllEvents(asList(eventModel));
 	}
 
+	@Test
+	public void testNewStudent() {
+		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.20);
+		eventController.newEvent(eventModel);
+		verify(eventView).eventAdded(eventModel);
+	}
+
 }
