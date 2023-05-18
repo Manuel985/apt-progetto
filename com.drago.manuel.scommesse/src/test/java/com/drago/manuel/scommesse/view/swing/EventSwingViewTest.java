@@ -1,14 +1,34 @@
 package com.drago.manuel.scommesse.view.swing;
 
-import static org.junit.Assert.*;
+import org.assertj.swing.edt.GuiActionRunner;
+import org.assertj.swing.fixture.FrameFixture;
+import org.assertj.swing.junit.runner.GUITestRunner;
+import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import org.junit.Test;
+import com.drago.manuel.scommesse.controller.EventController;
 
-public class EventSwingViewTest {
+@RunWith(GUITestRunner.class)
+public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
+	private FrameFixture window;
+
+	private EventSwingView eventSwingView;
+
+	@Mock
+	private EventController eventController;
+
+	@Override
+	protected void onSetUp() {
+		MockitoAnnotations.openMocks(this);
+		GuiActionRunner.execute(() -> {
+			eventSwingView = new EventSwingView();
+			eventSwingView.setEventController(eventController);
+			return eventSwingView;
+		});
+		window = new FrameFixture(robot(), eventSwingView);
+		window.show();
 	}
-
 }
