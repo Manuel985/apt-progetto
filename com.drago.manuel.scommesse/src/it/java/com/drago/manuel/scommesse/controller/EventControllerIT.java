@@ -1,6 +1,10 @@
 package com.drago.manuel.scommesse.controller;
 
+import static java.util.Arrays.asList;
+import static org.mockito.Mockito.verify;
+
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -31,6 +35,14 @@ public class EventControllerIT {
 			eventRepository.delete(eventModel.getHomeTeam(), eventModel.getAwayTeam(), eventModel.getOutcome());
 		}
 		eventController = new EventController(eventRepository, eventView);
+	}
+
+	@Test
+	public void testAllEvents() {
+		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.20);
+		eventRepository.save(eventModel);
+		eventController.allEvents();
+		verify(eventView).showAllEvents(asList(eventModel));
 	}
 
 }
