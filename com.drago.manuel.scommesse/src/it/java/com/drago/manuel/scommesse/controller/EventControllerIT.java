@@ -3,7 +3,6 @@ package com.drago.manuel.scommesse.controller;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.verify;
 
-import org.bson.Document;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -18,7 +17,6 @@ import com.drago.manuel.scommesse.repository.mongo.EventMongoRepository;
 import com.drago.manuel.scommesse.view.EventView;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -32,7 +30,6 @@ public class EventControllerIT {
 	private EventController eventController;
 
 	private MongoClient client;
-	private MongoCollection<Document> eventCollection;
 
 	private static final String BET_DB_NAME = "bet";
 	private static final String EVENT_COLLECTION_NAME = "event";
@@ -46,7 +43,6 @@ public class EventControllerIT {
 		eventRepository = new EventMongoRepository(client, BET_DB_NAME, EVENT_COLLECTION_NAME);
 		MongoDatabase database = client.getDatabase(BET_DB_NAME);
 		database.drop();
-		eventCollection = database.getCollection(EVENT_COLLECTION_NAME);
 		eventController = new EventController(eventRepository, eventView);
 	}
 
