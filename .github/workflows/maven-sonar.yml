@@ -33,4 +33,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -f com.drago.manuel.scommesse/pom.xml verify -Pjacoco sonar:sonar -Dsonar.projectKey=Manuel985_apt-progetto
+        run: xvfb-run mvn -f com.drago.manuel.scommesse/pom.xml verify -Pjacoco sonar:sonar -Dsonar.projectKey=Manuel985_apt-progetto
