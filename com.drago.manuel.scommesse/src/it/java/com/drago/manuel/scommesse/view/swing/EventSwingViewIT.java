@@ -1,13 +1,17 @@
 package com.drago.manuel.scommesse.view.swing;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.net.InetSocketAddress;
 
+import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.runner.GUITestRunner;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.drago.manuel.scommesse.controller.EventController;
@@ -66,6 +70,17 @@ public class EventSwingViewIT extends AssertJSwingJUnitTestCase {
 	@Override
 	protected void onTearDown() {
 		mongoClient.close();
+	}
+
+	@Test
+	@GUITest
+	public void testAllEvents() {
+		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 2.85);
+		EventModel eventModel2 = new EventModel("Roma", "Lazio", "X", 3.55);
+		eventMongoRepository.save(eventModel);
+		eventMongoRepository.save(eventModel2);
+		GuiActionRunner.execute(() -> eventController.allEvents());
+		assertThat(window.list().contents()).containsExactly("Juventus - Inter = X - 2.85", "Roma - Lazio = X - 3.55");
 	}
 
 }
