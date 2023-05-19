@@ -51,7 +51,7 @@ public class EventController {
 			return;
 		}
 		eventRepository.update(modifiedEventModel);
-		eventView.eventChanged(modifiedEventModel);
+		eventView.eventChanged(eventModel, newOdds);
 
 	}
 

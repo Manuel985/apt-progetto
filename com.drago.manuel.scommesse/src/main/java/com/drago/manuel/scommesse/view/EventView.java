@@ -14,6 +14,6 @@ public interface EventView {
 
 	void eventRemoved(EventModel eventModel);
 
-	void eventChanged(EventModel eventModel);
+	void eventChanged(EventModel eventModel, double odds);
 
 }
