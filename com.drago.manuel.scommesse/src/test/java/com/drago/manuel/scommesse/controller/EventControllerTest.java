@@ -86,7 +86,7 @@ public class EventControllerTest {
 		eventController.changeOdds(existingEventModel, modifiedEventModel.getOdds());
 		InOrder inOrder = inOrder(eventRepository, eventView);
 		inOrder.verify(eventRepository).update(modifiedEventModel);
-		inOrder.verify(eventView).eventChanged(modifiedEventModel);
+		inOrder.verify(eventView).eventChanged(existingEventModel, modifiedEventModel.getOdds());
 
 	}
 

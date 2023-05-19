@@ -23,6 +23,6 @@ jobs:
            restore-keys: ${{ runner.os }}-m2-
            
       - name: Build with Maven
-        run: mvn -f com.drago.manuel.scommesse/pom.xml verify -Pjacoco -DrepoToken=$COVERALLS_REPO_TOKEN coveralls:report
+        run: xvfb-run mvn -f com.drago.manuel.scommesse/pom.xml verify -Pjacoco -DrepoToken=$COVERALLS_REPO_TOKEN coveralls:report
         env:
            COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
