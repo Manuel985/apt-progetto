@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.net.InetSocketAddress;
 
 import org.assertj.swing.annotation.GUITest;
+import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.runner.GUITestRunner;
@@ -81,6 +82,17 @@ public class EventSwingViewIT extends AssertJSwingJUnitTestCase {
 		eventMongoRepository.save(eventModel2);
 		GuiActionRunner.execute(() -> eventController.allEvents());
 		assertThat(window.list().contents()).containsExactly("Juventus - Inter = X - 2.85", "Roma - Lazio = X - 3.55");
+	}
+	
+	@Test @GUITest
+	public void testAddButtonSuccess() {
+		window.textBox("homeTeamTextBox").enterText("Juventus");
+		window.textBox("awayTeamTextBox").enterText("Inter");
+		window.textBox("outcomeTextBox").enterText("X");
+		window.textBox("oddsTextBox").enterText("2.85");
+		window.button(JButtonMatcher.withText("Add")).click();
+		assertThat(window.list().contents())
+			.containsExactly("Juventus - Inter = X - 2.85");
 	}
 
 }
