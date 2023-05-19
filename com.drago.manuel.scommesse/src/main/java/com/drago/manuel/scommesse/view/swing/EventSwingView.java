@@ -249,12 +249,6 @@ public class EventSwingView extends JFrame implements EventView {
 	}
 
 	@Override
-	public void showError(String message, EventModel eventModel) {
-		errorMessageLabel.setText(message + ": " + getDisplayString(eventModel));
-
-	}
-
-	@Override
 	public void eventAdded(EventModel eventModel) {
 		listEventsModel.addElement(eventModel);
 		resetErrorLabel();
@@ -284,6 +278,12 @@ public class EventSwingView extends JFrame implements EventView {
 
 	private void resetErrorLabel() {
 		errorMessageLabel.setText(" ");
+	}
+
+	@Override
+	public void showError(String message) {
+		errorMessageLabel.setText(message);
+		
 	}
 
 }

@@ -21,14 +21,14 @@ public class EventController {
 
 	public void newEvent(EventModel eventModel) {
 		if (eventModel.getOdds() <= MINIMUM_ODDS) {
-			eventView.showError("Odds must be greater then " + MINIMUM_ODDS, eventModel);
+			eventView.showError("Odds must be greater then " + MINIMUM_ODDS);
 			return;
 		}
 		EventModel existingEventModel = eventRepository.findByHomeAwayOutcome(eventModel.getHomeTeam(),
 				eventModel.getAwayTeam(), eventModel.getOutcome());
 		if (existingEventModel != null) {
 			eventView.showError("Already existing event " + eventModel.getHomeTeam() + "-" + eventModel.getAwayTeam()
-					+ " " + eventModel.getOutcome(), existingEventModel);
+					+ " " + eventModel.getOutcome());
 			return;
 		}
 
@@ -47,7 +47,7 @@ public class EventController {
 		EventModel modifiedEventModel = new EventModel(eventModel.getHomeTeam(), eventModel.getAwayTeam(),
 				eventModel.getOutcome(), newOdds);
 		if (newOdds <= MINIMUM_ODDS) {
-			eventView.showError("Odds must be greater then " + MINIMUM_ODDS, modifiedEventModel);
+			eventView.showError("Odds must be greater then " + MINIMUM_ODDS);
 			return;
 		}
 		eventRepository.update(modifiedEventModel);
