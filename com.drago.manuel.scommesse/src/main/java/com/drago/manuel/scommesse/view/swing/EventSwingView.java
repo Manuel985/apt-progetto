@@ -217,6 +217,8 @@ public class EventSwingView extends JFrame implements EventView {
 		};
 		oddsTextBox.addKeyListener(btnChangeEnabler);
 		listEvents.addListSelectionListener(e -> enableButtonChangeOdds());
+		btnChangeOdds.addActionListener(e -> eventController.changeOdds(listEvents.getSelectedValue(),
+				Double.parseDouble(oddsTextBox.getText())));
 
 		btnDelete.setEnabled(false);
 		GridBagConstraints gbc_btnDelete = new GridBagConstraints();

@@ -241,4 +241,17 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Delete")).click();
 		verify(eventController).deleteEvent(eventModel);
 	}
+
+	@Test
+	public void testChangeOddsButtonShouldDelegateToEventControllerUpdateEvent() {
+		window.textBox("oddsTextBox").enterText("2.85");
+		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.25);
+		GuiActionRunner.execute(() -> {
+			DefaultListModel<EventModel> listEventsModel = eventSwingView.getListEventsModel();
+			listEventsModel.addElement(eventModel);
+		});
+		window.list("eventList").selectItem(0);
+		window.button(JButtonMatcher.withText("Change Odds")).click();
+		verify(eventController).changeOdds(eventModel, 2.85);
+	}
 }
