@@ -5,6 +5,7 @@ import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
+import org.assertj.swing.fixture.JTextComponentFixture;
 import org.assertj.swing.junit.runner.GUITestRunner;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Test;
@@ -52,5 +53,61 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Delete")).requireDisabled();
 		window.button(JButtonMatcher.withText("Change Odds")).requireDisabled();
 		window.label("errorMessageLabel").requireText(" ");
+	}
+
+	@Test
+	public void testWhenHomeAwayOutcomeOddsAreNonEmptyThenAddButtonShouldBeEnabled() {
+		window.textBox("homeTeamTextBox").enterText("Juventus");
+		window.textBox("awayTeamTextBox").enterText("Inter");
+		window.textBox("outcomeTextBox").enterText("X");
+		window.textBox("oddsTextBox").enterText("3.20");
+		window.button(JButtonMatcher.withText("Add")).requireEnabled();
+	}
+
+	@Test
+	public void testWhenHomeOrAwayOrOutcomeOrOddsAreBlankThenAddButtonShouldBeDisabled() {
+		JTextComponentFixture homeTeamTextBox = window.textBox("homeTeamTextBox");
+		JTextComponentFixture awayTeamTextBox = window.textBox("awayTeamTextBox");
+		JTextComponentFixture outcomeTextBox = window.textBox("outcomeTextBox");
+		JTextComponentFixture oddsTextBox = window.textBox("oddsTextBox");
+
+		homeTeamTextBox.enterText("Juventus");
+		awayTeamTextBox.enterText("Inter");
+		outcomeTextBox.enterText("1");
+		oddsTextBox.enterText(" ");
+		window.button(JButtonMatcher.withText("Add")).requireDisabled();
+
+		homeTeamTextBox.setText("");
+		awayTeamTextBox.setText("");
+		outcomeTextBox.setText("");
+		oddsTextBox.setText("");
+
+		homeTeamTextBox.enterText("Juventus");
+		awayTeamTextBox.enterText("Inter");
+		outcomeTextBox.enterText(" ");
+		oddsTextBox.enterText("2.80");
+		window.button(JButtonMatcher.withText("Add")).requireDisabled();
+
+		homeTeamTextBox.setText("");
+		awayTeamTextBox.setText("");
+		outcomeTextBox.setText("");
+		oddsTextBox.setText("");
+
+		homeTeamTextBox.enterText("Juventus");
+		awayTeamTextBox.enterText(" ");
+		outcomeTextBox.enterText("X");
+		oddsTextBox.enterText("2.80");
+		window.button(JButtonMatcher.withText("Add")).requireDisabled();
+
+		homeTeamTextBox.setText("");
+		awayTeamTextBox.setText("");
+		outcomeTextBox.setText("");
+		oddsTextBox.setText("");
+
+		homeTeamTextBox.enterText(" ");
+		awayTeamTextBox.enterText("Inter");
+		outcomeTextBox.enterText("X");
+		oddsTextBox.enterText("2.80");
+		window.button(JButtonMatcher.withText("Add")).requireDisabled();
 	}
 }
