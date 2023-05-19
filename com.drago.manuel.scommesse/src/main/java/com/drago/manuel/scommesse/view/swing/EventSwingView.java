@@ -1,22 +1,24 @@
 package com.drago.manuel.scommesse.view.swing;
 
 import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.drago.manuel.scommesse.controller.EventController;
 import com.drago.manuel.scommesse.model.EventModel;
 import com.drago.manuel.scommesse.view.EventView;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JTextField;
-import javax.swing.JList;
-import javax.swing.JButton;
 
 public class EventSwingView extends JFrame implements EventView {
 	private EventController eventController;
@@ -54,12 +56,12 @@ public class EventSwingView extends JFrame implements EventView {
 
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
-		
+
 		JLabel lblHomeTeam = new JLabel("Home team");
 		GridBagConstraints gbc_lblHomeTeam = new GridBagConstraints();
 		gbc_lblHomeTeam.anchor = GridBagConstraints.EAST;
@@ -67,7 +69,7 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_lblHomeTeam.gridx = 0;
 		gbc_lblHomeTeam.gridy = 0;
 		contentPane.add(lblHomeTeam, gbc_lblHomeTeam);
-		
+
 		homeTeamTextBox = new JTextField();
 		homeTeamTextBox.setName("homeTeamTextBox");
 		GridBagConstraints gbc_homeTeamTextBox = new GridBagConstraints();
@@ -78,7 +80,7 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_homeTeamTextBox.gridy = 0;
 		contentPane.add(homeTeamTextBox, gbc_homeTeamTextBox);
 		homeTeamTextBox.setColumns(10);
-		
+
 		JLabel lblAwayTeam = new JLabel("Away team");
 		GridBagConstraints gbc_lblAwayTeam = new GridBagConstraints();
 		gbc_lblAwayTeam.anchor = GridBagConstraints.EAST;
@@ -86,7 +88,7 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_lblAwayTeam.gridx = 0;
 		gbc_lblAwayTeam.gridy = 1;
 		contentPane.add(lblAwayTeam, gbc_lblAwayTeam);
-		
+
 		awayTeamTextBox = new JTextField();
 		awayTeamTextBox.setName("awayTeamTextBox");
 		GridBagConstraints gbc_awayTeamTextBox = new GridBagConstraints();
@@ -97,7 +99,7 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_awayTeamTextBox.gridy = 1;
 		contentPane.add(awayTeamTextBox, gbc_awayTeamTextBox);
 		awayTeamTextBox.setColumns(10);
-		
+
 		JLabel lblOutcome = new JLabel("Outcome");
 		GridBagConstraints gbc_lblOutcome = new GridBagConstraints();
 		gbc_lblOutcome.anchor = GridBagConstraints.EAST;
@@ -105,7 +107,7 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_lblOutcome.gridx = 0;
 		gbc_lblOutcome.gridy = 2;
 		contentPane.add(lblOutcome, gbc_lblOutcome);
-		
+
 		outcomeTextBox = new JTextField();
 		outcomeTextBox.setName("outcomeTextBox");
 		GridBagConstraints gbc_outcomeTextBox = new GridBagConstraints();
@@ -116,7 +118,7 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_outcomeTextBox.gridy = 2;
 		contentPane.add(outcomeTextBox, gbc_outcomeTextBox);
 		outcomeTextBox.setColumns(10);
-		
+
 		JLabel lblOdds = new JLabel("Odds");
 		GridBagConstraints gbc_lblOdds = new GridBagConstraints();
 		gbc_lblOdds.anchor = GridBagConstraints.EAST;
@@ -124,7 +126,7 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_lblOdds.gridx = 0;
 		gbc_lblOdds.gridy = 3;
 		contentPane.add(lblOdds, gbc_lblOdds);
-		
+
 		oddsTextBox = new JTextField();
 		oddsTextBox.setName("oddsTextBox");
 		GridBagConstraints gbc_oddsTextBox = new GridBagConstraints();
@@ -135,7 +137,7 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_oddsTextBox.gridy = 3;
 		contentPane.add(oddsTextBox, gbc_oddsTextBox);
 		oddsTextBox.setColumns(10);
-		
+
 		JButton btnAdd = new JButton("Add");
 		btnAdd.setEnabled(false);
 		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
@@ -143,7 +145,19 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_btnAdd.gridx = 2;
 		gbc_btnAdd.gridy = 4;
 		contentPane.add(btnAdd, gbc_btnAdd);
-		
+		KeyAdapter btnAddEnabler = new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				btnAdd.setEnabled(!homeTeamTextBox.getText().trim().isEmpty()
+						&& !awayTeamTextBox.getText().trim().isEmpty() && !outcomeTextBox.getText().trim().isEmpty()
+						&& !oddsTextBox.getText().trim().isEmpty());
+			}
+		};
+		homeTeamTextBox.addKeyListener(btnAddEnabler);
+		awayTeamTextBox.addKeyListener(btnAddEnabler);
+		outcomeTextBox.addKeyListener(btnAddEnabler);
+		oddsTextBox.addKeyListener(btnAddEnabler);
+
 		JList eventList = new JList();
 		eventList.setName("eventList");
 		GridBagConstraints gbc_eventList = new GridBagConstraints();
@@ -154,7 +168,7 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_eventList.gridx = 0;
 		gbc_eventList.gridy = 5;
 		contentPane.add(eventList, gbc_eventList);
-		
+
 		JButton btnChangeOdds = new JButton("Change Odds");
 		btnChangeOdds.setEnabled(false);
 		GridBagConstraints gbc_btnChangeOdds = new GridBagConstraints();
@@ -162,7 +176,7 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_btnChangeOdds.gridx = 1;
 		gbc_btnChangeOdds.gridy = 7;
 		contentPane.add(btnChangeOdds, gbc_btnChangeOdds);
-		
+
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.setEnabled(false);
 		GridBagConstraints gbc_btnDelete = new GridBagConstraints();
@@ -170,7 +184,7 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_btnDelete.gridx = 3;
 		gbc_btnDelete.gridy = 7;
 		contentPane.add(btnDelete, gbc_btnDelete);
-		
+
 		JLabel errorMessageLabel = new JLabel(" ");
 		errorMessageLabel.setName("errorMessageLabel");
 		GridBagConstraints gbc_errorMessageLabel = new GridBagConstraints();
