@@ -210,11 +210,11 @@ public class EventSwingView extends JFrame implements EventView {
 		KeyAdapter btnChangeEnabler = new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				EnableButtonChangeOdds();
+				enableButtonChangeOdds();
 			}
 		};
 		oddsTextBox.addKeyListener(btnChangeEnabler);
-		listEvents.addListSelectionListener(e -> EnableButtonChangeOdds());
+		listEvents.addListSelectionListener(e -> enableButtonChangeOdds());
 
 		btnDelete.setEnabled(false);
 		GridBagConstraints gbc_btnDelete = new GridBagConstraints();
@@ -231,7 +231,7 @@ public class EventSwingView extends JFrame implements EventView {
 		contentPane.add(errorMessageLabel, gbc_errorMessageLabel);
 	}
 
-	private void EnableButtonChangeOdds() {
+	private void enableButtonChangeOdds() {
 		if (!oddsTextBox.getText().trim().isEmpty() && !listEvents.isSelectionEmpty())
 			btnChangeOdds.setEnabled(true);
 		else
@@ -266,8 +266,11 @@ public class EventSwingView extends JFrame implements EventView {
 	}
 
 	@Override
-	public void eventChanged(EventModel eventModel) {
-		// TODO Auto-generated method stub
+	public void eventChanged(EventModel eventModel, double odds) {
+		int index = listEventsModel.indexOf(eventModel);
+		listEventsModel.setElementAt(
+				new EventModel(eventModel.getHomeTeam(), eventModel.getAwayTeam(), eventModel.getOutcome(), odds),
+				index);
 
 	}
 

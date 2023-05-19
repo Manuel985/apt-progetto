@@ -72,9 +72,10 @@ public class EventControllerIT {
 	@Test
 	public void testChangeOdds() {
 		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.20);
+		double odds = 2.80;
 		eventRepository.save(eventModel);
-		eventController.changeOdds(eventModel, 2.80);
-		verify(eventView).eventChanged(new EventModel("Juventus", "Inter", "X", 2.80));
+		eventController.changeOdds(eventModel, odds);
+		verify(eventView).eventChanged(eventModel, odds);
 	}
 
 }
