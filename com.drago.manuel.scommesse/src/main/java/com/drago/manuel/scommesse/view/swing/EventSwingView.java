@@ -231,7 +231,7 @@ public class EventSwingView extends JFrame implements EventView {
 
 	@Override
 	public void showError(String message, EventModel eventModel) {
-		// TODO Auto-generated method stub
+		errorMessageLabel.setText(message + ": " + getDisplayString(eventModel));
 
 	}
 

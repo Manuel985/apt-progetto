@@ -136,4 +136,11 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 		String[] listContents = window.list().contents();
 		assertThat(listContents).containsExactly("Juventus - Inter = X - 3.25", "Roma - Lazio = X - 3.65");
 	}
+
+	@Test
+	public void testShowErrorShouldShowTheMessageInTheErrorLabel() {
+		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.25);
+		GuiActionRunner.execute(() -> eventSwingView.showError("error message", eventModel));
+		window.label("errorMessageLabel").requireText("error message: Juventus - Inter = X - 3.25");
+	}
 }
