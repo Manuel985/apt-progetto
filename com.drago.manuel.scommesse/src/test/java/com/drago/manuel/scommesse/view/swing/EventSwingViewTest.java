@@ -200,9 +200,22 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 			listEventsModel.addElement(eventModel2);
 		});
 		GuiActionRunner.execute(() -> eventSwingView.eventRemoved(eventModel));
-		// verify
 		String[] listContents = window.list().contents();
 		assertThat(listContents).containsExactly("Roma - Lazio = X - 3.65");
+		window.label("errorMessageLabel").requireText(" ");
+	}
+
+	@Test
+	public void testEventChangedShouldChangeTheEventInTheListAndResetTheErrorLabel() {
+		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.25);
+		double odds = 2.55;
+		GuiActionRunner.execute(() -> {
+			DefaultListModel<EventModel> listEventsModel = eventSwingView.getListEventsModel();
+			listEventsModel.addElement(eventModel);
+		});
+		GuiActionRunner.execute(() -> eventSwingView.eventChanged(eventModel, odds));
+		String[] listContents = window.list().contents();
+		assertThat(listContents).containsExactly("Juventus - Inter = X - 2.55");
 		window.label("errorMessageLabel").requireText(" ");
 	}
 }
