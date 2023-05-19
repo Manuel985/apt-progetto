@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.drago.manuel.scommesse.controller.EventController;
@@ -29,7 +30,7 @@ public class EventSwingView extends JFrame implements EventView {
 
 	private static final long serialVersionUID = 1L;
 
-	private EventController eventController;
+	private transient EventController eventController;
 	private JPanel contentPane;
 	private JTextField homeTeamTextBox;
 	private JTextField awayTeamTextBox;
@@ -70,7 +71,7 @@ public class EventSwingView extends JFrame implements EventView {
 	}
 
 	public EventSwingView() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -237,10 +238,7 @@ public class EventSwingView extends JFrame implements EventView {
 	}
 
 	private void enableButtonChangeOdds() {
-		if (!oddsTextBox.getText().trim().isEmpty() && !listEvents.isSelectionEmpty())
-			btnChangeOdds.setEnabled(true);
-		else
-			btnChangeOdds.setEnabled(false);
+		btnChangeOdds.setEnabled(!oddsTextBox.getText().trim().isEmpty() && !listEvents.isSelectionEmpty());
 
 	}
 
