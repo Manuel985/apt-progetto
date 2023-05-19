@@ -117,4 +117,14 @@ public class EventSwingViewIT extends AssertJSwingJUnitTestCase {
 		assertThat(window.list().contents()).isEmpty();
 	}
 
+	@Test
+	@GUITest
+	public void testChangeOddsButtonSuccess() {
+		window.textBox("oddsTextBox").enterText("3.15");
+		GuiActionRunner.execute(() -> eventController.newEvent(new EventModel("Juventus", "Inter", "X", 2.85)));
+		window.list().selectItem(0);
+		window.button(JButtonMatcher.withText("Change Odds")).click();
+		assertThat(window.list().contents()).containsExactly("Juventus - Inter = X - 3.15");
+	}
+
 }
