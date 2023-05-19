@@ -1,5 +1,9 @@
 package com.drago.manuel.scommesse.view.swing;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Arrays;
+
 import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
@@ -122,5 +126,14 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 		deleteButton.requireEnabled();
 		window.list("eventList").clearSelection();
 		deleteButton.requireDisabled();
+	}
+
+	@Test
+	public void testsShowAllEventsShouldAddEventDescriptionsToTheList() {
+		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.25);
+		EventModel eventModel2 = new EventModel("Roma", "Lazio", "X", 3.65);
+		GuiActionRunner.execute(() -> eventSwingView.showAllEvents(Arrays.asList(eventModel, eventModel2)));
+		String[] listContents = window.list().contents();
+		assertThat(listContents).containsExactly("Juventus - Inter = X - 3.25", "Roma - Lazio = X - 3.65");
 	}
 }
