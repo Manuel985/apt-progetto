@@ -173,6 +173,8 @@ public class EventSwingView extends JFrame implements EventView {
 		awayTeamTextBox.addKeyListener(btnAddEnabler);
 		outcomeTextBox.addKeyListener(btnAddEnabler);
 		oddsTextBox.addKeyListener(btnAddEnabler);
+		btnAdd.addActionListener(e -> eventController.newEvent(new EventModel(homeTeamTextBox.getText(),
+				awayTeamTextBox.getText(), outcomeTextBox.getText(), Double.parseDouble(oddsTextBox.getText()))));
 
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridheight = 2;
