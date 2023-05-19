@@ -83,16 +83,29 @@ public class EventSwingViewIT extends AssertJSwingJUnitTestCase {
 		GuiActionRunner.execute(() -> eventController.allEvents());
 		assertThat(window.list().contents()).containsExactly("Juventus - Inter = X - 2.85", "Roma - Lazio = X - 3.55");
 	}
-	
-	@Test @GUITest
+
+	@Test
+	@GUITest
 	public void testAddButtonSuccess() {
 		window.textBox("homeTeamTextBox").enterText("Juventus");
 		window.textBox("awayTeamTextBox").enterText("Inter");
 		window.textBox("outcomeTextBox").enterText("X");
 		window.textBox("oddsTextBox").enterText("2.85");
 		window.button(JButtonMatcher.withText("Add")).click();
-		assertThat(window.list().contents())
-			.containsExactly("Juventus - Inter = X - 2.85");
+		assertThat(window.list().contents()).containsExactly("Juventus - Inter = X - 2.85");
+	}
+
+	@Test
+	@GUITest
+	public void testAddButtonError() {
+		eventMongoRepository.save(new EventModel("Juventus", "Inter", "X", 2.85));
+		window.textBox("homeTeamTextBox").enterText("Juventus");
+		window.textBox("awayTeamTextBox").enterText("Inter");
+		window.textBox("outcomeTextBox").enterText("X");
+		window.textBox("oddsTextBox").enterText("2.85");
+		window.button(JButtonMatcher.withText("Add")).click();
+		assertThat(window.list().contents()).isEmpty();
+		window.label("errorMessageLabel").requireText("Already existing event Juventus-Inter X");
 	}
 
 }

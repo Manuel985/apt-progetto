@@ -8,7 +8,7 @@ public interface EventView {
 
 	void showAllEvents(List<EventModel> eventModels);
 
-	void showError(String message, EventModel eventModel);
+	void showError(String message);
 
 	void eventAdded(EventModel eventModel);
 
