@@ -55,7 +55,6 @@ public class EventControllerTest {
 	public void testNewEventWhenOddsIsNotGreaterThenOne() {
 		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 1.0);
 		eventController.newEvent(eventModel);
-		verify(eventView).showError("Odds must be greater then 1.0", eventModel);
 		verify(eventRepository, never()).save(eventModel);
 
 	}
@@ -66,7 +65,6 @@ public class EventControllerTest {
 		EventModel existingEventModel = new EventModel("Juventus", "Inter", "X", 2.20);
 		when(eventRepository.findByHomeAwayOutcome("Juventus", "Inter", "X")).thenReturn(existingEventModel);
 		eventController.newEvent(newEventModel);
-		verify(eventView).showError("Already existing event Juventus-Inter X", existingEventModel);
 		verifyNoMoreInteractions(ignoreStubs(eventRepository));
 	}
 
@@ -95,7 +93,6 @@ public class EventControllerTest {
 		EventModel existingEventModel = new EventModel("Juventus", "Inter", "X", 2.20);
 		EventModel modifiedEventModel = new EventModel("Juventus", "Inter", "X", 1.0);
 		eventController.changeOdds(existingEventModel, modifiedEventModel.getOdds());
-		verify(eventView).showError("Odds must be greater then 1.0", modifiedEventModel);
 		verify(eventRepository, never()).update(modifiedEventModel);
 
 	}

@@ -61,7 +61,6 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.list("eventList");
 		window.button(JButtonMatcher.withText("Delete")).requireDisabled();
 		window.button(JButtonMatcher.withText("Change Odds")).requireDisabled();
-		window.label("errorMessageLabel").requireText(" ");
 	}
 
 	@Test
@@ -177,22 +176,14 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 	}
 
 	@Test
-	public void testShowErrorShouldShowTheMessageInTheErrorLabel() {
-		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.25);
-		GuiActionRunner.execute(() -> eventSwingView.showError("error message", eventModel));
-		window.label("errorMessageLabel").requireText("error message: Juventus - Inter = X - 3.25");
-	}
-
-	@Test
-	public void testEventAddedShouldAddTheEventToTheListAndResetTheErrorLabel() {
+	public void testEventAddedShouldAddTheEventToTheList() {
 		GuiActionRunner.execute(() -> eventSwingView.eventAdded(new EventModel("Juventus", "Inter", "X", 3.25)));
 		String[] listContents = window.list().contents();
 		assertThat(listContents).containsExactly("Juventus - Inter = X - 3.25");
-		window.label("errorMessageLabel").requireText(" ");
 	}
 
 	@Test
-	public void testEventRemovedShouldRemoveTheEventFromTheListAndResetTheErrorLabel() {
+	public void testEventRemovedShouldRemoveTheEventFromTheList() {
 		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.25);
 		EventModel eventModel2 = new EventModel("Roma", "Lazio", "X", 3.65);
 		GuiActionRunner.execute(() -> {
@@ -203,11 +194,10 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 		GuiActionRunner.execute(() -> eventSwingView.eventRemoved(eventModel));
 		String[] listContents = window.list().contents();
 		assertThat(listContents).containsExactly("Roma - Lazio = X - 3.65");
-		window.label("errorMessageLabel").requireText(" ");
 	}
 
 	@Test
-	public void testEventChangedShouldChangeTheEventInTheListAndResetTheErrorLabel() {
+	public void testEventChangedShouldChangeTheEventInTheList() {
 		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.25);
 		double odds = 2.55;
 		GuiActionRunner.execute(() -> {
@@ -217,7 +207,6 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 		GuiActionRunner.execute(() -> eventSwingView.eventChanged(eventModel, odds));
 		String[] listContents = window.list().contents();
 		assertThat(listContents).containsExactly("Juventus - Inter = X - 2.55");
-		window.label("errorMessageLabel").requireText(" ");
 	}
 
 	@Test

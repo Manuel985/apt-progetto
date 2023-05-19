@@ -8,12 +8,10 @@ public interface EventView {
 
 	void showAllEvents(List<EventModel> eventModels);
 
-	void showError(String message, EventModel eventModel);
-
 	void eventAdded(EventModel eventModel);
 
 	void eventRemoved(EventModel eventModel);
 
-	void eventChanged(EventModel eventModel, double odds);
+	void eventChanged(EventModel eventModelToChange, double newOdds);
 
 }

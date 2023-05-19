@@ -44,7 +44,6 @@ public class EventSwingView extends JFrame implements EventView {
 	private JScrollPane scrollPane = new JScrollPane();
 	private JButton btnChangeOdds = new JButton("Change Odds");
 	private JButton btnDelete = new JButton("Delete");
-	private JLabel errorMessageLabel = new JLabel(" ");
 	private JList<EventModel> listEvents;
 	private DefaultListModel<EventModel> listEventsModel;
 
@@ -180,7 +179,7 @@ public class EventSwingView extends JFrame implements EventView {
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridheight = 2;
 		gbc_scrollPane.gridwidth = 3;
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 1;
 		gbc_scrollPane.gridy = 5;
@@ -203,13 +202,6 @@ public class EventSwingView extends JFrame implements EventView {
 		listEvents.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listEvents.setName("eventList");
 		scrollPane.setViewportView(listEvents);
-
-		btnChangeOdds.setEnabled(false);
-		GridBagConstraints gbc_btnChangeOdds = new GridBagConstraints();
-		gbc_btnChangeOdds.insets = new Insets(0, 0, 5, 5);
-		gbc_btnChangeOdds.gridx = 1;
-		gbc_btnChangeOdds.gridy = 7;
-		contentPane.add(btnChangeOdds, gbc_btnChangeOdds);
 		KeyAdapter btnChangeEnabler = new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -218,6 +210,13 @@ public class EventSwingView extends JFrame implements EventView {
 		};
 		oddsTextBox.addKeyListener(btnChangeEnabler);
 		listEvents.addListSelectionListener(e -> enableButtonChangeOdds());
+
+		btnChangeOdds.setEnabled(false);
+		GridBagConstraints gbc_btnChangeOdds = new GridBagConstraints();
+		gbc_btnChangeOdds.insets = new Insets(0, 0, 5, 5);
+		gbc_btnChangeOdds.gridx = 1;
+		gbc_btnChangeOdds.gridy = 7;
+		contentPane.add(btnChangeOdds, gbc_btnChangeOdds);
 		btnChangeOdds.addActionListener(e -> eventController.changeOdds(listEvents.getSelectedValue(),
 				Double.parseDouble(oddsTextBox.getText())));
 
@@ -228,18 +227,6 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_btnDelete.gridy = 7;
 		contentPane.add(btnDelete, gbc_btnDelete);
 		btnDelete.addActionListener(e -> eventController.deleteEvent(listEvents.getSelectedValue()));
-
-		errorMessageLabel.setName("errorMessageLabel");
-		GridBagConstraints gbc_errorMessageLabel = new GridBagConstraints();
-		gbc_errorMessageLabel.gridwidth = 4;
-		gbc_errorMessageLabel.gridx = 0;
-		gbc_errorMessageLabel.gridy = 8;
-		contentPane.add(errorMessageLabel, gbc_errorMessageLabel);
-	}
-
-	private void enableButtonChangeOdds() {
-		btnChangeOdds.setEnabled(!oddsTextBox.getText().trim().isEmpty() && !listEvents.isSelectionEmpty());
-
 	}
 
 	@Override
@@ -249,41 +236,33 @@ public class EventSwingView extends JFrame implements EventView {
 	}
 
 	@Override
-	public void showError(String message, EventModel eventModel) {
-		errorMessageLabel.setText(message + ": " + getDisplayString(eventModel));
-
-	}
-
-	@Override
 	public void eventAdded(EventModel eventModel) {
 		listEventsModel.addElement(eventModel);
-		resetErrorLabel();
 
 	}
 
 	@Override
 	public void eventRemoved(EventModel eventModel) {
 		listEventsModel.removeElement(eventModel);
-		resetErrorLabel();
 
 	}
 
 	@Override
-	public void eventChanged(EventModel eventModel, double odds) {
-		int index = listEventsModel.indexOf(eventModel);
-		listEventsModel.setElementAt(
-				new EventModel(eventModel.getHomeTeam(), eventModel.getAwayTeam(), eventModel.getOutcome(), odds),
-				index);
+	public void eventChanged(EventModel eventModelToChange, double newOdds) {
+		int index = listEventsModel.indexOf(eventModelToChange);
+		listEventsModel.setElementAt(new EventModel(eventModelToChange.getHomeTeam(), eventModelToChange.getAwayTeam(),
+				eventModelToChange.getOutcome(), newOdds), index);
+
+	}
+	
+	private void enableButtonChangeOdds() {
+		btnChangeOdds.setEnabled(!oddsTextBox.getText().trim().isEmpty() && !listEvents.isSelectionEmpty());
 
 	}
 
 	private String getDisplayString(EventModel eventModel) {
 		return eventModel.getHomeTeam() + " - " + eventModel.getAwayTeam() + " = " + eventModel.getOutcome() + " - "
 				+ eventModel.getOdds();
-	}
-
-	private void resetErrorLabel() {
-		errorMessageLabel.setText(" ");
 	}
 
 }
