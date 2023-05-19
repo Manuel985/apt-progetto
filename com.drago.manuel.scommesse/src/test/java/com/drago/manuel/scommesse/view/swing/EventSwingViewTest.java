@@ -5,6 +5,7 @@ import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
+import org.assertj.swing.fixture.JButtonFixture;
 import org.assertj.swing.fixture.JTextComponentFixture;
 import org.assertj.swing.junit.runner.GUITestRunner;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.drago.manuel.scommesse.controller.EventController;
+import com.drago.manuel.scommesse.model.EventModel;
 
 @RunWith(GUITestRunner.class)
 public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
@@ -109,5 +111,16 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 		outcomeTextBox.enterText("X");
 		oddsTextBox.enterText("2.80");
 		window.button(JButtonMatcher.withText("Add")).requireDisabled();
+	}
+
+	@Test
+	public void testDeleteButtonShouldBeEnabledOnlyWhenAnEventIsSelected() {
+		GuiActionRunner.execute(
+				() -> eventSwingView.getListEventsModel().addElement(new EventModel("Juventus", "Inter", "X", 3.20)));
+		window.list("eventList").selectItem(0);
+		JButtonFixture deleteButton = window.button(JButtonMatcher.withText("Delete"));
+		deleteButton.requireEnabled();
+		window.list("eventList").clearSelection();
+		deleteButton.requireDisabled();
 	}
 }

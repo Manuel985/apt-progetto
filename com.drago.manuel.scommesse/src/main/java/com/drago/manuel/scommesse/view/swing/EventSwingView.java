@@ -1,5 +1,6 @@
 package com.drago.manuel.scommesse.view.swing;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,12 +9,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
 import com.drago.manuel.scommesse.controller.EventController;
@@ -21,17 +26,36 @@ import com.drago.manuel.scommesse.model.EventModel;
 import com.drago.manuel.scommesse.view.EventView;
 
 public class EventSwingView extends JFrame implements EventView {
-	private EventController eventController;
+
 	private static final long serialVersionUID = 1L;
+
+	private EventController eventController;
 	private JPanel contentPane;
 	private JTextField homeTeamTextBox;
 	private JTextField awayTeamTextBox;
 	private JTextField outcomeTextBox;
 	private JTextField oddsTextBox;
+	private JLabel lblHomeTeam = new JLabel("Home team");
+	private JLabel lblAwayTeam = new JLabel("Away team");
+	private JLabel lblOutcome = new JLabel("Outcome");
+	private JLabel lblOdds = new JLabel("Odds");
+	private JButton btnAdd = new JButton("Add");
+	private JScrollPane scrollPane = new JScrollPane();
+	private JButton btnChangeOdds = new JButton("Change Odds");
+	private JButton btnDelete = new JButton("Delete");
+	private JLabel errorMessageLabel = new JLabel(" ");
+	private JList<EventModel> listEvents;
+	private DefaultListModel<EventModel> listEventsModel;
 
-	/**
-	 * Launch the application.
-	 */
+	DefaultListModel<EventModel> getListEventsModel() {
+		return listEventsModel;
+	}
+
+	public void setEventController(EventController eventController) {
+		this.eventController = eventController;
+
+	}
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -45,9 +69,6 @@ public class EventSwingView extends JFrame implements EventView {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public EventSwingView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -58,11 +79,10 @@ public class EventSwingView extends JFrame implements EventView {
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[] { 0, 0, 0, 0, 0 };
 		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_contentPane.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_contentPane.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
 
-		JLabel lblHomeTeam = new JLabel("Home team");
 		GridBagConstraints gbc_lblHomeTeam = new GridBagConstraints();
 		gbc_lblHomeTeam.anchor = GridBagConstraints.EAST;
 		gbc_lblHomeTeam.insets = new Insets(0, 0, 5, 5);
@@ -81,7 +101,6 @@ public class EventSwingView extends JFrame implements EventView {
 		contentPane.add(homeTeamTextBox, gbc_homeTeamTextBox);
 		homeTeamTextBox.setColumns(10);
 
-		JLabel lblAwayTeam = new JLabel("Away team");
 		GridBagConstraints gbc_lblAwayTeam = new GridBagConstraints();
 		gbc_lblAwayTeam.anchor = GridBagConstraints.EAST;
 		gbc_lblAwayTeam.insets = new Insets(0, 0, 5, 5);
@@ -100,7 +119,6 @@ public class EventSwingView extends JFrame implements EventView {
 		contentPane.add(awayTeamTextBox, gbc_awayTeamTextBox);
 		awayTeamTextBox.setColumns(10);
 
-		JLabel lblOutcome = new JLabel("Outcome");
 		GridBagConstraints gbc_lblOutcome = new GridBagConstraints();
 		gbc_lblOutcome.anchor = GridBagConstraints.EAST;
 		gbc_lblOutcome.insets = new Insets(0, 0, 5, 5);
@@ -119,7 +137,6 @@ public class EventSwingView extends JFrame implements EventView {
 		contentPane.add(outcomeTextBox, gbc_outcomeTextBox);
 		outcomeTextBox.setColumns(10);
 
-		JLabel lblOdds = new JLabel("Odds");
 		GridBagConstraints gbc_lblOdds = new GridBagConstraints();
 		gbc_lblOdds.anchor = GridBagConstraints.EAST;
 		gbc_lblOdds.insets = new Insets(0, 0, 5, 5);
@@ -138,7 +155,6 @@ public class EventSwingView extends JFrame implements EventView {
 		contentPane.add(oddsTextBox, gbc_oddsTextBox);
 		oddsTextBox.setColumns(10);
 
-		JButton btnAdd = new JButton("Add");
 		btnAdd.setEnabled(false);
 		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
 		gbc_btnAdd.insets = new Insets(0, 0, 5, 5);
@@ -158,18 +174,33 @@ public class EventSwingView extends JFrame implements EventView {
 		outcomeTextBox.addKeyListener(btnAddEnabler);
 		oddsTextBox.addKeyListener(btnAddEnabler);
 
-		JList eventList = new JList();
-		eventList.setName("eventList");
-		GridBagConstraints gbc_eventList = new GridBagConstraints();
-		gbc_eventList.gridheight = 2;
-		gbc_eventList.gridwidth = 4;
-		gbc_eventList.insets = new Insets(0, 0, 5, 0);
-		gbc_eventList.fill = GridBagConstraints.BOTH;
-		gbc_eventList.gridx = 0;
-		gbc_eventList.gridy = 5;
-		contentPane.add(eventList, gbc_eventList);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridheight = 2;
+		gbc_scrollPane.gridwidth = 3;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 5;
+		contentPane.add(scrollPane, gbc_scrollPane);
 
-		JButton btnChangeOdds = new JButton("Change Odds");
+		listEventsModel = new DefaultListModel<>();
+		listEvents = new JList<>(listEventsModel);
+		listEvents.setCellRenderer(new DefaultListCellRenderer() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+					boolean cellHasFocus) {
+				EventModel event = (EventModel) value;
+				return super.getListCellRendererComponent(list, getDisplayString(event), index, isSelected,
+						cellHasFocus);
+			}
+		});
+		listEvents.addListSelectionListener(e -> btnDelete.setEnabled(listEvents.getSelectedIndex() != -1));
+		listEvents.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listEvents.setName("eventList");
+		scrollPane.setViewportView(listEvents);
+
 		btnChangeOdds.setEnabled(false);
 		GridBagConstraints gbc_btnChangeOdds = new GridBagConstraints();
 		gbc_btnChangeOdds.insets = new Insets(0, 0, 5, 5);
@@ -177,7 +208,6 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_btnChangeOdds.gridy = 7;
 		contentPane.add(btnChangeOdds, gbc_btnChangeOdds);
 
-		JButton btnDelete = new JButton("Delete");
 		btnDelete.setEnabled(false);
 		GridBagConstraints gbc_btnDelete = new GridBagConstraints();
 		gbc_btnDelete.insets = new Insets(0, 0, 5, 0);
@@ -185,11 +215,9 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_btnDelete.gridy = 7;
 		contentPane.add(btnDelete, gbc_btnDelete);
 
-		JLabel errorMessageLabel = new JLabel(" ");
 		errorMessageLabel.setName("errorMessageLabel");
 		GridBagConstraints gbc_errorMessageLabel = new GridBagConstraints();
 		gbc_errorMessageLabel.gridwidth = 4;
-		gbc_errorMessageLabel.insets = new Insets(0, 0, 0, 5);
 		gbc_errorMessageLabel.gridx = 0;
 		gbc_errorMessageLabel.gridy = 8;
 		contentPane.add(errorMessageLabel, gbc_errorMessageLabel);
@@ -225,9 +253,9 @@ public class EventSwingView extends JFrame implements EventView {
 
 	}
 
-	public void setEventController(EventController eventController) {
-		this.eventController = eventController;
-
+	private String getDisplayString(EventModel eventModel) {
+		return eventModel.getHomeTeam() + " - " + eventModel.getAwayTeam() + " " + eventModel.getOutcome() + " "
+				+ eventModel.getOdds();
 	}
 
 }
