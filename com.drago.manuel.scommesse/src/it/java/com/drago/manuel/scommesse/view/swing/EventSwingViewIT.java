@@ -108,4 +108,13 @@ public class EventSwingViewIT extends AssertJSwingJUnitTestCase {
 		window.label("errorMessageLabel").requireText("Already existing event Juventus-Inter X");
 	}
 
+	@Test
+	@GUITest
+	public void testDeleteButtonSuccess() {
+		GuiActionRunner.execute(() -> eventController.newEvent(new EventModel("Juventus", "Inter", "X", 2.85)));
+		window.list().selectItem(0);
+		window.button(JButtonMatcher.withText("Delete")).click();
+		assertThat(window.list().contents()).isEmpty();
+	}
+
 }
