@@ -71,11 +71,6 @@ public class EventMongoRepositoryTest {
 				new EventModel("Juventus", "Inter", "X", 3.20));
 	}
 
-	private void addTestEventToDatabase(String homeTeam, String awayTeam, String outcome, double odds) {
-		eventCollection.insertOne(new Document().append("homeTeam", homeTeam).append("awayTeam", awayTeam)
-				.append("outcome", outcome).append("odds", odds));
-	}
-
 	@Test
 	public void testFindByHomeAwayOutcomeNotFound() {
 		assertThat(eventMongoRepository.findByHomeAwayOutcome("Juventus", "Inter", "1")).isNull();
@@ -96,13 +91,6 @@ public class EventMongoRepositoryTest {
 		assertThat(readAllEventsFromDatabase()).containsExactly(eventModel);
 	}
 
-	private List<EventModel> readAllEventsFromDatabase() {
-		return StreamSupport
-				.stream(eventCollection.find().spliterator(), false).map(d -> new EventModel(d.getString("homeTeam"),
-						d.getString("awayTeam"), d.getString("outcome"), d.getDouble("odds")))
-				.collect(Collectors.toList());
-	}
-
 	@Test
 	public void testDelete() {
 		addTestEventToDatabase("Juventus", "Inter", "1", 1.80);
@@ -116,6 +104,18 @@ public class EventMongoRepositoryTest {
 		EventModel modifiedEventModel = new EventModel("Juventus", "Inter", "1", 1.55);
 		eventMongoRepository.update(modifiedEventModel);
 		assertThat(readAllEventsFromDatabase()).containsExactly(modifiedEventModel);
+	}
+	
+	private void addTestEventToDatabase(String homeTeam, String awayTeam, String outcome, double odds) {
+		eventCollection.insertOne(new Document().append("homeTeam", homeTeam).append("awayTeam", awayTeam)
+				.append("outcome", outcome).append("odds", odds));
+	}
+
+	private List<EventModel> readAllEventsFromDatabase() {
+		return StreamSupport
+				.stream(eventCollection.find().spliterator(), false).map(d -> new EventModel(d.getString("homeTeam"),
+						d.getString("awayTeam"), d.getString("outcome"), d.getDouble("odds")))
+				.collect(Collectors.toList());
 	}
 
 }
