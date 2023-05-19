@@ -207,6 +207,14 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_btnChangeOdds.gridx = 1;
 		gbc_btnChangeOdds.gridy = 7;
 		contentPane.add(btnChangeOdds, gbc_btnChangeOdds);
+		KeyAdapter btnChangeEnabler = new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				EnableButtonChangeOdds();
+			}
+		};
+		oddsTextBox.addKeyListener(btnChangeEnabler);
+		listEvents.addListSelectionListener(e -> EnableButtonChangeOdds());
 
 		btnDelete.setEnabled(false);
 		GridBagConstraints gbc_btnDelete = new GridBagConstraints();
@@ -221,6 +229,14 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_errorMessageLabel.gridx = 0;
 		gbc_errorMessageLabel.gridy = 8;
 		contentPane.add(errorMessageLabel, gbc_errorMessageLabel);
+	}
+
+	private void EnableButtonChangeOdds() {
+		if (!oddsTextBox.getText().trim().isEmpty() && !listEvents.isSelectionEmpty())
+			btnChangeOdds.setEnabled(true);
+		else
+			btnChangeOdds.setEnabled(false);
+
 	}
 
 	@Override
@@ -244,7 +260,8 @@ public class EventSwingView extends JFrame implements EventView {
 
 	@Override
 	public void eventRemoved(EventModel eventModel) {
-		// TODO Auto-generated method stub
+		listEventsModel.removeElement(eventModel);
+		resetErrorLabel();
 
 	}
 

@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 
+import javax.swing.DefaultListModel;
+
 import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
@@ -129,6 +131,42 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 	}
 
 	@Test
+	public void testWhenOddsIsNonEmptyAndAnEventIsSelectedThenAddButtonShouldBeEnabled() {
+		window.textBox("oddsTextBox").enterText("2.55");
+		GuiActionRunner.execute(
+				() -> eventSwingView.getListEventsModel().addElement(new EventModel("Juventus", "Inter", "X", 3.20)));
+		window.list("eventList").selectItem(0);
+		JButtonFixture changeOddsButton = window.button(JButtonMatcher.withText("Change Odds"));
+		changeOddsButton.requireEnabled();
+		window.list("eventList").clearSelection();
+		changeOddsButton.requireDisabled();
+	}
+
+	@Test
+	public void testWhenOddsIsBlankAndAnEventIsSelectedThenAddButtonShouldBeDisabled() {
+		window.textBox("oddsTextBox").enterText(" ");
+		GuiActionRunner.execute(
+				() -> eventSwingView.getListEventsModel().addElement(new EventModel("Juventus", "Inter", "X", 3.20)));
+		window.list("eventList").selectItem(0);
+		JButtonFixture changeOddsButton = window.button(JButtonMatcher.withText("Change Odds"));
+		changeOddsButton.requireDisabled();
+	}
+
+	@Test
+	public void testWhenOddsIsEmptyOrNoEventIsSelectedThenAddButtonShouldBeDisabled() {
+		window.textBox("oddsTextBox").enterText("");
+		GuiActionRunner.execute(
+				() -> eventSwingView.getListEventsModel().addElement(new EventModel("Juventus", "Inter", "X", 3.20)));
+		window.list("eventList").selectItem(0);
+		JButtonFixture changeOddsButton = window.button(JButtonMatcher.withText("Change Odds"));
+		changeOddsButton.requireDisabled();
+
+		window.textBox("oddsTextBox").enterText("2.55");
+		window.list("eventList").clearSelection();
+		changeOddsButton.requireDisabled();
+	}
+
+	@Test
 	public void testsShowAllEventsShouldAddEventDescriptionsToTheList() {
 		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.25);
 		EventModel eventModel2 = new EventModel("Roma", "Lazio", "X", 3.65);
@@ -149,6 +187,22 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 		GuiActionRunner.execute(() -> eventSwingView.eventAdded(new EventModel("Juventus", "Inter", "X", 3.25)));
 		String[] listContents = window.list().contents();
 		assertThat(listContents).containsExactly("Juventus - Inter = X - 3.25");
+		window.label("errorMessageLabel").requireText(" ");
+	}
+
+	@Test
+	public void testEventRemovedShouldRemoveTheEventFromTheListAndResetTheErrorLabel() {
+		EventModel eventModel = new EventModel("Juventus", "Inter", "X", 3.25);
+		EventModel eventModel2 = new EventModel("Roma", "Lazio", "X", 3.65);
+		GuiActionRunner.execute(() -> {
+			DefaultListModel<EventModel> listEventsModel = eventSwingView.getListEventsModel();
+			listEventsModel.addElement(eventModel);
+			listEventsModel.addElement(eventModel2);
+		});
+		GuiActionRunner.execute(() -> eventSwingView.eventRemoved(eventModel));
+		// verify
+		String[] listContents = window.list().contents();
+		assertThat(listContents).containsExactly("Roma - Lazio = X - 3.65");
 		window.label("errorMessageLabel").requireText(" ");
 	}
 }
