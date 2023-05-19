@@ -237,7 +237,8 @@ public class EventSwingView extends JFrame implements EventView {
 
 	@Override
 	public void eventAdded(EventModel eventModel) {
-		// TODO Auto-generated method stub
+		listEventsModel.addElement(eventModel);
+		resetErrorLabel();
 
 	}
 
@@ -256,6 +257,10 @@ public class EventSwingView extends JFrame implements EventView {
 	private String getDisplayString(EventModel eventModel) {
 		return eventModel.getHomeTeam() + " - " + eventModel.getAwayTeam() + " = " + eventModel.getOutcome() + " - "
 				+ eventModel.getOdds();
+	}
+
+	private void resetErrorLabel() {
+		errorMessageLabel.setText(" ");
 	}
 
 }
