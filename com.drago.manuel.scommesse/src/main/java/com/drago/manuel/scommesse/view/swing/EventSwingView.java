@@ -225,7 +225,7 @@ public class EventSwingView extends JFrame implements EventView {
 
 	@Override
 	public void showAllEvents(List<EventModel> eventModels) {
-		// TODO Auto-generated method stub
+		eventModels.stream().forEach(listEventsModel::addElement);
 
 	}
 
@@ -254,7 +254,7 @@ public class EventSwingView extends JFrame implements EventView {
 	}
 
 	private String getDisplayString(EventModel eventModel) {
-		return eventModel.getHomeTeam() + " - " + eventModel.getAwayTeam() + " " + eventModel.getOutcome() + " "
+		return eventModel.getHomeTeam() + " - " + eventModel.getAwayTeam() + " = " + eventModel.getOutcome() + " - "
 				+ eventModel.getOdds();
 	}
 
