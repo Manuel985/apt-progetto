@@ -224,6 +224,7 @@ public class EventSwingView extends JFrame implements EventView {
 		gbc_btnDelete.gridx = 3;
 		gbc_btnDelete.gridy = 7;
 		contentPane.add(btnDelete, gbc_btnDelete);
+		btnDelete.addActionListener(e -> eventController.deleteEvent(listEvents.getSelectedValue()));
 
 		errorMessageLabel.setName("errorMessageLabel");
 		GridBagConstraints gbc_errorMessageLabel = new GridBagConstraints();
