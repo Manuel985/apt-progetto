@@ -1,6 +1,7 @@
 package com.drago.manuel.scommesse.view.swing;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 
@@ -217,5 +218,15 @@ public class EventSwingViewTest extends AssertJSwingJUnitTestCase {
 		String[] listContents = window.list().contents();
 		assertThat(listContents).containsExactly("Juventus - Inter = X - 2.55");
 		window.label("errorMessageLabel").requireText(" ");
+	}
+
+	@Test
+	public void testAddButtonShouldDelegateToEventControllerNewEvent() {
+		window.textBox("homeTeamTextBox").enterText("Juventus");
+		window.textBox("awayTeamTextBox").enterText("Inter");
+		window.textBox("outcomeTextBox").enterText("X");
+		window.textBox("oddsTextBox").enterText("3.20");
+		window.button(JButtonMatcher.withText("Add")).click();
+		verify(eventController).newEvent(new EventModel("Juventus", "Inter", "X", 3.20));
 	}
 }
