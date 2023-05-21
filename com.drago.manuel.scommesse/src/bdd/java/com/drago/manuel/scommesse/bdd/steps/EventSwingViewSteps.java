@@ -90,6 +90,19 @@ public class EventSwingViewSteps {
 				.noneSatisfy(e -> assertThat(e).contains(HOME_TEAM, AWAY_TEAM, OUTCOME, "" + ODDS));
 	}
 
+	@Given("The user provides a new odds in the text field")
+	public void the_user_provides_a_new_odds_in_the_text_field() {
+		window.textBox("oddsTextBox").enterText("1.65");
+	}
+
+	@Then("The event is updated in the list")
+	public void the_event_is_updated_in_the_list() {
+		assertThat(window.list().contents())
+				.noneSatisfy(e -> assertThat(e).contains(HOME_TEAM, AWAY_TEAM, OUTCOME, "" + ODDS));
+		assertThat(window.list().contents())
+				.anySatisfy(e -> assertThat(e).contains(HOME_TEAM, AWAY_TEAM, OUTCOME, "1.65"));
+	}
+
 	private void addTestEventToDatabase(String homeTeam, String awayTeam, String outcome, double odds) {
 		mongoClient.getDatabase(DB_NAME).getCollection(COLLECTION_NAME)
 				.insertOne(new Document().append("homeTeam", homeTeam).append("awayTeam", awayTeam)
