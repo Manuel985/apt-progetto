@@ -89,6 +89,15 @@ public class EventSwingAppE2E extends AssertJSwingJUnitTestCase {
 		assertThat(window.list().contents()).anySatisfy(e -> assertThat(e).contains("Napoli", "Milan", "X", "3.35"));
 	}
 
+	@Test
+	@GUITest
+	public void testDeleteButton() {
+		window.list("eventList").selectItem(0);
+		window.button(JButtonMatcher.withText("Delete")).click();
+		assertThat(window.list().contents()).anySatisfy(e -> assertThat(e).doesNotContain(EVENT_FIXTURE_1_HOME_TEAM,
+				EVENT_FIXTURE_1_AWAY_TEAM, EVENT_FIXTURE_1_OUTCOME, "" + EVENT_FIXTURE_1_ODDS));
+	}
+
 	private void addTestEventToDatabase(String eventFixtureHomeTeam, String eventFixtureAwayTeam,
 			String eventFixtureOutcome, double eventFixtureOdds) {
 		mongoClient.getDatabase(DB_NAME).getCollection(COLLECTION_NAME).insertOne(
