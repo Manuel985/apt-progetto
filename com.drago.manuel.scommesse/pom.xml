@@ -23,13 +23,15 @@
 		<logback.version>1.2.11</logback.version>
 		<mongo.server.version>1.39.0</mongo.server.version>
 		<testcontainers.version>1.18.1</testcontainers.version>
+		<picocli.version>4.6.1</picocli.version>
+		<cucumber.version>5.5.0</cucumber.version>
 		<sonar.organization>manuel985</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.coverage.exclusions>
 			**/EventModel.*,
 			**/EventSwingApp.*
 		</sonar.coverage.exclusions>
-		<sonar.issue.ignore.multicriteria>e11,e12,e13,e14</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e11,e12,e13</sonar.issue.ignore.multicriteria>
 		<sonar.issue.ignore.multicriteria.e11.ruleKey>
 			java:S110
 		</sonar.issue.ignore.multicriteria.e11.ruleKey>
@@ -48,18 +50,10 @@
 		<sonar.issue.ignore.multicriteria.e13.resourceKey>
 			**/StudentSwingViewTest.java
 		</sonar.issue.ignore.multicriteria.e13.resourceKey>
-		<sonar.issue.ignore.multicriteria.e14.ruleKey>
-			java:S3577
-		</sonar.issue.ignore.multicriteria.e14.ruleKey>
-		<sonar.issue.ignore.multicriteria.e14.resourceKey>
-			**/EventSwingAppE2E.java
-		</sonar.issue.ignore.multicriteria.e14.resourceKey>
 		<sonar.junit.reportPaths>
 			${project.build.directory}/surefire-reports,
 			${project.build.directory}/failsafe-reports
 		</sonar.junit.reportPaths>
-		<picocli.version>4.6.1</picocli.version>
-		<cucumber.version>5.5.0</cucumber.version>
 	</properties>
 
 	<dependencies>
@@ -202,7 +196,6 @@
 						<configuration>
 							<sources>
 								<source>src/it/java</source>
-								<source>src/e2e/java</source>
 								<source>src/bdd/java</source>
 							</sources>
 						</configuration>
@@ -238,21 +231,6 @@
 							<goal>integration-test</goal>
 							<goal>verify</goal>
 						</goals>
-					</execution>
-					<execution>
-						<id>e2e-tests</id>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-						<configuration>
-							<excludes>
-								<exclude>**/*IT.java</exclude>
-							</excludes>
-							<includes>
-								<include>**/*E2E.java</include>
-							</includes>
-						</configuration>
 					</execution>
 					<execution>
 						<id>bdd-tests</id>
