@@ -19,7 +19,6 @@
 		<junit.version>4.13.2</junit.version>
 		<assertj.swing.version>3.9.2</assertj.swing.version>
 		<mockito.version>4.9.0</mockito.version>
-		<cucumber.version>5.5.0</cucumber.version>
 		<mongo.driver.version>3.12.7</mongo.driver.version>
 		<logback.version>1.2.11</logback.version>
 		<mongo.server.version>1.39.0</mongo.server.version>
@@ -52,20 +51,14 @@
 			${project.build.directory}/surefire-reports,
 			${project.build.directory}/failsafe-reports
 		</sonar.junit.reportPaths>
+		<picocli.version>4.6.1</picocli.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>io.cucumber</groupId>
-			<artifactId>cucumber-java</artifactId>
-			<version>${cucumber.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.cucumber</groupId>
-			<artifactId>cucumber-junit</artifactId>
-			<version>${cucumber.version}</version>
-			<scope>test</scope>
+			<groupId>info.picocli</groupId>
+			<artifactId>picocli</artifactId>
+			<version>${picocli.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -188,22 +181,8 @@
 						<configuration>
 							<sources>
 								<source>src/it/java</source>
-								<source>src/bdd/java</source>
+								<source>src/e2e/java</source>
 							</sources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>add-test-resource</id>
-						<phase>generate-test-resources</phase>
-						<goals>
-							<goal>add-test-resource</goal>
-						</goals>
-						<configuration>
-							<resources>
-								<resource>
-									<directory>src/bdd/resources</directory>
-								</resource>
-							</resources>
 						</configuration>
 					</execution>
 				</executions>
@@ -220,7 +199,7 @@
 						</goals>
 					</execution>
 					<execution>
-						<id>bdd-tests</id>
+						<id>e2e-tests</id>
 						<goals>
 							<goal>integration-test</goal>
 							<goal>verify</goal>
@@ -230,7 +209,7 @@
 								<exclude>**/*IT.java</exclude>
 							</excludes>
 							<includes>
-								<include>**/*BDD.java</include>
+								<include>**/*E2E.java</include>
 							</includes>
 						</configuration>
 					</execution>
