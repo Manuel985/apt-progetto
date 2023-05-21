@@ -9,3 +9,8 @@ Feature: Event Application Frame
     Given The user provides event data in the text fields
     When The user clicks the "Add" button
     Then The list contains the new event
+    
+  Scenario: Delete an event
+    Given The user selects an event from the list
+    When The user clicks the "Delete" button
+    Then The student is removed from the list
