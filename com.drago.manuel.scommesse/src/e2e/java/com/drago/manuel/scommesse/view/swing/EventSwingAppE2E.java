@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 
 import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.core.GenericTypeMatcher;
+import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.finder.WindowFinder;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.runner.GUITestRunner;
@@ -62,14 +63,6 @@ public class EventSwingAppE2E extends AssertJSwingJUnitTestCase {
 		}).using(robot());
 	}
 
-	private void addTestEventToDatabase(String eventFixtureHomeTeam, String eventFixtureAwayTeam,
-			String eventFixtureOutcome, double eventFixtureOdds) {
-		mongoClient.getDatabase(DB_NAME).getCollection(COLLECTION_NAME).insertOne(
-				new Document().append("homeTeam", eventFixtureHomeTeam).append("awayTeam", eventFixtureAwayTeam)
-						.append("outcome", eventFixtureOutcome).append("odds", eventFixtureOdds));
-
-	}
-
 	@Override
 	protected void onTearDown() {
 		mongoClient.close();
@@ -83,6 +76,25 @@ public class EventSwingAppE2E extends AssertJSwingJUnitTestCase {
 						EVENT_FIXTURE_1_OUTCOME, "" + EVENT_FIXTURE_1_ODDS))
 				.anySatisfy(e -> assertThat(e).contains(EVENT_FIXTURE_2_HOME_TEAM, EVENT_FIXTURE_2_AWAY_TEAM,
 						EVENT_FIXTURE_2_OUTCOME, "" + EVENT_FIXTURE_2_ODDS));
+	}
+
+	@Test
+	@GUITest
+	public void testAddButton() {
+		window.textBox("homeTeamTextBox").enterText("Napoli");
+		window.textBox("awayTeamTextBox").enterText("Milan");
+		window.textBox("outcomeTextBox").enterText("X");
+		window.textBox("oddsTextBox").enterText("3.35");
+		window.button(JButtonMatcher.withText("Add")).click();
+		assertThat(window.list().contents()).anySatisfy(e -> assertThat(e).contains("Napoli", "Milan", "X", "3.35"));
+	}
+
+	private void addTestEventToDatabase(String eventFixtureHomeTeam, String eventFixtureAwayTeam,
+			String eventFixtureOutcome, double eventFixtureOdds) {
+		mongoClient.getDatabase(DB_NAME).getCollection(COLLECTION_NAME).insertOne(
+				new Document().append("homeTeam", eventFixtureHomeTeam).append("awayTeam", eventFixtureAwayTeam)
+						.append("outcome", eventFixtureOutcome).append("odds", eventFixtureOdds));
+
 	}
 
 }
