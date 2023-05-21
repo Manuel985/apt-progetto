@@ -1,6 +1,8 @@
 # apt-progetto
 Progetto di Advanced Programming Techniques riguardante lo sviluppo di un semplice sistema di scommese calcistiche.
 
+[![Java CI with Maven and Coveralls in Linux](https://github.com/Manuel985/apt-progetto/actions/workflows/maven-coveralls.yml/badge.svg)](https://github.com/Manuel985/apt-progetto/actions/workflows/maven-coveralls.yml)
+[![Java CI with Maven and Sonar in Linux](https://github.com/Manuel985/apt-progetto/actions/workflows/maven-sonar.yml/badge.svg)](https://github.com/Manuel985/apt-progetto/actions/workflows/maven-sonar.yml)
 [![Coverage Status](https://coveralls.io/repos/github/Manuel985/apt-progetto/badge.svg?branch=main)](https://coveralls.io/github/Manuel985/apt-progetto?branch=main)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Manuel985_apt-progetto&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Manuel985_apt-progetto)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Manuel985_apt-progetto&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Manuel985_apt-progetto)
