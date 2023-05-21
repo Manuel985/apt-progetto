@@ -26,7 +26,7 @@
 		<sonar.organization>manuel985</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.coverage.exclusions>
-			**/EventModel.*
+			**/EventModel.*,
 			**/EventSwingApp.*
 		</sonar.coverage.exclusions>
 		<sonar.issue.ignore.multicriteria>e11,e12,e13,e14</sonar.issue.ignore.multicriteria>
