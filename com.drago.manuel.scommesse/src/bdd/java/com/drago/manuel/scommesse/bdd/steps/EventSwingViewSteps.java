@@ -12,6 +12,7 @@ import org.assertj.swing.finder.WindowFinder;
 import org.assertj.swing.fixture.FrameFixture;
 import org.bson.Document;
 
+import com.drago.manuel.scommesse.bdd.EventSwingAppBDD;
 import com.mongodb.MongoClient;
 
 import io.cucumber.java.After;
@@ -33,7 +34,7 @@ public class EventSwingViewSteps {
 
 	@Before
 	public void setUp() {
-		mongoClient = new MongoClient();
+		mongoClient = new MongoClient("localhost", EventSwingAppBDD.mongoPort);
 		mongoClient.getDatabase(DB_NAME).drop();
 	}
 
@@ -52,7 +53,9 @@ public class EventSwingViewSteps {
 	@Given("The Event View is shown")
 	public void the_Event_View_is_shown() {
 		application("com.drago.manuel.scommesse.app.swing.EventSwingApp")
-				.withArgs("--db-name=" + DB_NAME, "--db-collection=" + COLLECTION_NAME).start();
+				.withArgs("--mongo-port=" + EventSwingAppBDD.mongoPort, "--db-name=" + DB_NAME,
+						"--db-collection=" + COLLECTION_NAME)
+				.start();
 		window = WindowFinder.findFrame(new GenericTypeMatcher<JFrame>(JFrame.class) {
 			@Override
 			protected boolean isMatching(JFrame frame) {

@@ -19,7 +19,7 @@ import io.cucumber.junit.CucumberOptions;
  *
  */
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/bdd/resources", monochrome = true, strict = true)
+@CucumberOptions(features = "src/bdd/resources", monochrome = true)
 public class EventSwingAppBDD {
 
 	public static int mongoPort = Integer.parseInt(System.getProperty("mongo.port", "27017"));
