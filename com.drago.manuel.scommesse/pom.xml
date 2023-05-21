@@ -118,6 +118,7 @@
 					<configuration>
 						<excludes>
 							<exclude>**/EventModel.*</exclude>
+							<exclude>**/EventSwingApp.*</exclude>
 						</excludes>
 					</configuration>
 					<executions>
@@ -137,10 +138,10 @@
 						<targetClasses>
 							<param>com.drago.manuel.scommesse.controller.*</param>
 							<param>com.drago.manuel.scommesse.repository.mongo.*</param>
-							<param>com.drago.manuel.scommesse.view.swing.*</param>
 						</targetClasses>
 						<targetTests>
-							<param>com.drago.manuel.scommesse.*</param>
+							<param>com.drago.manuel.scommesse.controller.*</param>
+							<param>com.drago.manuel.scommesse.repository.mongo.*</param>
 						</targetTests>
 						<mutators>
 							<mutator>STRONGER</mutator>
