@@ -22,7 +22,7 @@ import io.cucumber.java.en.When;
 
 public class EventSwingViewSteps {
 
-	private static final String ODDS = "2.15";
+	private static final double ODDS = 2.15;
 	private static final String OUTCOME = "X";
 	private static final String AWAY_TEAM = "Inter";
 	private static final String HOME_TEAM = "Juventus";
@@ -79,10 +79,21 @@ public class EventSwingViewSteps {
 		assertThat(window.list().contents()).anySatisfy(e -> assertThat(e).contains("Roma", "Lazio", "1", "1.65"));
 	}
 
-	private void addTestEventToDatabase(String homeTeam, String awayTeam, String outcome, String odds) {
+	@Given("The user selects an event from the list")
+	public void the_user_selects_an_event_from_the_list() {
+		window.list("eventList").selectItem(0);
+	}
+
+	@Then("The event is removed from the list")
+	public void the_event_is_removed_from_the_list() {
+		assertThat(window.list().contents())
+				.noneSatisfy(e -> assertThat(e).contains(HOME_TEAM, AWAY_TEAM, OUTCOME, "" + ODDS));
+	}
+
+	private void addTestEventToDatabase(String homeTeam, String awayTeam, String outcome, double odds) {
 		mongoClient.getDatabase(DB_NAME).getCollection(COLLECTION_NAME)
 				.insertOne(new Document().append("homeTeam", homeTeam).append("awayTeam", awayTeam)
-						.append("outcome", outcome).append("odds", Double.parseDouble(odds)));
+						.append("outcome", outcome).append("odds", odds));
 	}
 
 }

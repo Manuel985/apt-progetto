@@ -13,4 +13,4 @@ Feature: Event Application Frame
   Scenario: Delete an event
     Given The user selects an event from the list
     When The user clicks the "Delete" button
-    Then The student is removed from the list
+    Then The event is removed from the list
