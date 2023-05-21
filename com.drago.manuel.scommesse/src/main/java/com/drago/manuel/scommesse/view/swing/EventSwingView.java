@@ -56,6 +56,7 @@ public class EventSwingView extends JFrame implements EventView {
 	}
 
 	public EventSwingView() {
+		setTitle("Event View");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

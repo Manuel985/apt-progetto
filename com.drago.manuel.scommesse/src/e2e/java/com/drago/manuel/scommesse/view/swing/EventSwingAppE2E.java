@@ -1,9 +1,11 @@
 package com.drago.manuel.scommesse.view.swing;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.swing.launcher.ApplicationLauncher.application;
 
 import javax.swing.JFrame;
 
+import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.core.GenericTypeMatcher;
 import org.assertj.swing.finder.WindowFinder;
 import org.assertj.swing.fixture.FrameFixture;
@@ -11,6 +13,7 @@ import org.assertj.swing.junit.runner.GUITestRunner;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.bson.Document;
 import org.junit.ClassRule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.testcontainers.containers.MongoDBContainer;
 
@@ -70,6 +73,16 @@ public class EventSwingAppE2E extends AssertJSwingJUnitTestCase {
 	@Override
 	protected void onTearDown() {
 		mongoClient.close();
+	}
+
+	@Test
+	@GUITest
+	public void testOnStartAllDatabaseElementsAreShown() {
+		assertThat(window.list().contents())
+				.anySatisfy(e -> assertThat(e).contains(EVENT_FIXTURE_1_HOME_TEAM, EVENT_FIXTURE_1_AWAY_TEAM,
+						EVENT_FIXTURE_1_OUTCOME, "" + EVENT_FIXTURE_1_ODDS))
+				.anySatisfy(e -> assertThat(e).contains(EVENT_FIXTURE_2_HOME_TEAM, EVENT_FIXTURE_2_AWAY_TEAM,
+						EVENT_FIXTURE_2_OUTCOME, "" + EVENT_FIXTURE_2_ODDS));
 	}
 
 }
