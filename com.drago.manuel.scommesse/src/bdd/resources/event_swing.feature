@@ -14,3 +14,9 @@ Feature: Event Application Frame
     Given The user selects an event from the list
     When The user clicks the "Delete" button
     Then The event is removed from the list
+    
+  Scenario: Change odds of an event
+    Given The user selects an event from the list
+    And The user provides a new odds in the text field
+    When The user clicks the "Change Odds" button
+    Then The event is updated in the list
