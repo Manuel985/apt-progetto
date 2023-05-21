@@ -51,9 +51,15 @@
 			${project.build.directory}/surefire-reports,
 			${project.build.directory}/failsafe-reports
 		</sonar.junit.reportPaths>
+		<picocli.version>4.6.1</picocli.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>info.picocli</groupId>
+			<artifactId>picocli</artifactId>
+			<version>${picocli.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -112,6 +118,7 @@
 					<configuration>
 						<excludes>
 							<exclude>**/EventModel.*</exclude>
+							<exclude>**/EventSwingApp.*</exclude>
 						</excludes>
 					</configuration>
 					<executions>
@@ -131,10 +138,10 @@
 						<targetClasses>
 							<param>com.drago.manuel.scommesse.controller.*</param>
 							<param>com.drago.manuel.scommesse.repository.mongo.*</param>
-							<param>com.drago.manuel.scommesse.view.swing.*</param>
 						</targetClasses>
 						<targetTests>
-							<param>com.drago.manuel.scommesse.*</param>
+							<param>com.drago.manuel.scommesse.controller.*</param>
+							<param>com.drago.manuel.scommesse.repository.mongo.*</param>
 						</targetTests>
 						<mutators>
 							<mutator>STRONGER</mutator>
@@ -175,6 +182,7 @@
 						<configuration>
 							<sources>
 								<source>src/it/java</source>
+								<source>src/e2e/java</source>
 							</sources>
 						</configuration>
 					</execution>
@@ -190,6 +198,21 @@
 							<goal>integration-test</goal>
 							<goal>verify</goal>
 						</goals>
+					</execution>
+					<execution>
+						<id>e2e-tests</id>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+						<configuration>
+							<excludes>
+								<exclude>**/*IT.java</exclude>
+							</excludes>
+							<includes>
+								<include>**/*E2E.java</include>
+							</includes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

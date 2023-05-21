@@ -1,7 +1,6 @@
 package com.drago.manuel.scommesse.view.swing;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -56,20 +55,8 @@ public class EventSwingView extends JFrame implements EventView {
 
 	}
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EventSwingView frame = new EventSwingView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	public EventSwingView() {
+		setTitle("Event View");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -254,7 +241,7 @@ public class EventSwingView extends JFrame implements EventView {
 				eventModelToChange.getOutcome(), newOdds), index);
 
 	}
-	
+
 	private void enableButtonChangeOdds() {
 		btnChangeOdds.setEnabled(!oddsTextBox.getText().trim().isEmpty() && !listEvents.isSelectionEmpty());
 
