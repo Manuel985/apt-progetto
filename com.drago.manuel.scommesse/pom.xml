@@ -27,8 +27,9 @@
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.coverage.exclusions>
 			**/EventModel.*
+			**/EventSwingApp.*
 		</sonar.coverage.exclusions>
-		<sonar.issue.ignore.multicriteria>e11,e12,e13</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e11,e12,e13,e14</sonar.issue.ignore.multicriteria>
 		<sonar.issue.ignore.multicriteria.e11.ruleKey>
 			java:S110
 		</sonar.issue.ignore.multicriteria.e11.ruleKey>
@@ -47,6 +48,12 @@
 		<sonar.issue.ignore.multicriteria.e13.resourceKey>
 			**/StudentSwingViewTest.java
 		</sonar.issue.ignore.multicriteria.e13.resourceKey>
+		<sonar.issue.ignore.multicriteria.e14.ruleKey>
+			java:S3577
+		</sonar.issue.ignore.multicriteria.e14.ruleKey>
+		<sonar.issue.ignore.multicriteria.e14.resourceKey>
+			**/EventSwingAppE2E.java
+		</sonar.issue.ignore.multicriteria.e14.resourceKey>
 		<sonar.junit.reportPaths>
 			${project.build.directory}/surefire-reports,
 			${project.build.directory}/failsafe-reports

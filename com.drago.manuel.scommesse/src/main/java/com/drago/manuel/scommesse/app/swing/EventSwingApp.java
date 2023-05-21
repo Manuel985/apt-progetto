@@ -2,6 +2,8 @@ package com.drago.manuel.scommesse.app.swing;
 
 import java.awt.EventQueue;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.drago.manuel.scommesse.controller.EventController;
 import com.drago.manuel.scommesse.repository.mongo.EventMongoRepository;
@@ -55,10 +57,10 @@ public class EventSwingApp implements Callable<Void> {
 				eventSwingView.setVisible(true);
 				eventController.allEvents();
 			} catch (Exception e) {
-				e.printStackTrace();
+				Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Exception", e);
 			}
 		});
 		return null;
 	}
-	
+
 }
