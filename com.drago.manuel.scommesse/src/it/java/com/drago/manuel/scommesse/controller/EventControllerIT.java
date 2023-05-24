@@ -3,6 +3,7 @@ package com.drago.manuel.scommesse.controller;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.verify;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -44,6 +45,11 @@ public class EventControllerIT {
 		MongoDatabase database = client.getDatabase(BET_DB_NAME);
 		database.drop();
 		eventController = new EventController(eventRepository, eventView);
+	}
+
+	@After
+	public void tearDown() {
+		client.close();
 	}
 
 	@Test
